@@ -7,7 +7,9 @@ A Project for macondo by HackClub
 
 ## Start Dev Server
 Give permission `chmod +x ./start.sh`
+<br>
 Start local PHP Server `./start.sh`
+<br>
 Open `127.0.0.1:54345`in your Browser
 
 ##### Why This way?

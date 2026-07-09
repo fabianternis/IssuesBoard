@@ -1,0 +1,5 @@
+{
+    "require": {
+        "blakvghost/php-validator": "^2.3"
+    }
+}

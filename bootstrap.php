@@ -1,6 +1,13 @@
 <?php
 
+include __DIR__ . '/src/controllers/signupController.php';
+require __DIR__ . '/vendor/autoload.php';
+
 function config($query) {
+    return null;
+}
+
+function log($message, $type) {
     return null;
 }
 
@@ -13,7 +20,21 @@ if (isset($action)) {
             break;
         case 'signup':
             if (isset($_POST['submit'])) {
+                /*
+                $data['email'] = $_POST['email'];
+                $data['username'] = $_POST['username'];
+                $data['password'] = $_POST['password'];
+                $data['password_confirmation'] = $_POST['password_confirmation'];
 
+                $signup = new SignupController($data);
+                */
+
+                $email = $_POST['email'] ?? '';
+                $username = $_POST['username'] ?? '';
+                $password = $_POST['password'] ?? '';
+                $password_confirmation = $_POST['password_confirmation'] ?? '';
+
+                $signup = new SignupController($email, $username, $password, $password_confirmation);
             }
             break;
         case 'logout':
