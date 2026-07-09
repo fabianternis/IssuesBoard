@@ -1,0 +1,17 @@
+*, html {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: sans-serif;
+    margin-inline: 12em;
+    padding-top: 5vh;
+}
+
+form {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: beige;
+}
