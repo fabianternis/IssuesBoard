@@ -1,14 +1,11 @@
 <?php
 
-include __DIR__ . '/src/controllers/signupController.php';
+include __DIR__ . '/src/classes/controllers/signupController.php';
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/src/helpers.php';
 
-function config($query) {
-    return null;
-}
-
-function log($message, $type) {
-    return null;
+function getCommitId() {
+    return trim((string) shell_exec('git rev-parse --short HEAD'));
 }
 
 $action = $_GET['action'] ?? null;
@@ -47,3 +44,16 @@ if (isset($action)) {
 
 include __DIR__ . '/src/views/layout/head.php';
 include __DIR__ . '/src/views/index.php';
+
+
+
+
+$commitHash = getCommitId();
+
+if ($commitHash) {
+    $safeCommitHash = htmlspecialchars((string)$commitHash, ENT_QUOTES, 'UTF-8');
+    
+    echo '<span class="commit-id"><a href="https://github.com/fabianternis/IssuesBoard/commit/' . $safeCommitHash . '">' . $safeCommitHash . '</a></span>';
+} else {
+    echo '<span class="commit-id error"> Deployment Commit: UNKNOWN (Git execution failed) </span>';
+}

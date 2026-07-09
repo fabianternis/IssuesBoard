@@ -1,5 +1,5 @@
 # IssuesBoard <br><img src="https://hackatime.hackclub.com/api/v1/badge/U0B8JTZDTKQ/fabianternis/IssuesBoard">
-A dashboard to track issues, bugs and feedback accross Coding Projects (with option to use GitHub-api).
+A dashboard to track issues, bugs and feedback as well as ToDos accross Coding Projects (with option to use GitHub-api).
 
 
 A Project for macondo by HackClub
