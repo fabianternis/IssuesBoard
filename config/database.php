@@ -7,7 +7,7 @@ return [
     'port' => env('DB_PORT', '3306'),
     'name' => env('DB_NAME', 'database'),
     'username' => env('DB_USERNAME', 'root'),
-    'password' => env('DB_PASSWORF', 'root'),
+    'password' => env('DB_PASSWORD', 'root'),
 
 
     
@@ -18,5 +18,5 @@ return [
 
 
     /* Qulaity of Life (if it is called like that) */
-    'host_FULL' => config('databse.host', 'localhost') . ':' . config('database.port', '3306'),
+    'host_FULL' => env('DB_HOST', 'localhost') . ':' . env('DB_PORT', '3306'),
 ];

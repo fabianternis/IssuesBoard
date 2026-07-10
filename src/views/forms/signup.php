@@ -3,5 +3,5 @@
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
     <input type="password" name="password_confirmation" placeholder="Password Confirmation">
-    <button type="submit">Sign up</button>
+    <button type="submit" name="submit">Sign up</button>
 </form>

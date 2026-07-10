@@ -30,7 +30,7 @@ if (isset($action)) {
             echo 'WIP';
             break;
         case 'signup':
-            if (isset($_POST['submit'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 /*
                 $data['email'] = $_POST['email'];
                 $data['username'] = $_POST['username'];
@@ -45,8 +45,8 @@ if (isset($action)) {
                 $password = $_POST['password'] ?? '';
                 $password_confirmation = $_POST['password_confirmation'] ?? '';
 
-                // $signup = new SignupController($email, $username, $password, $password_confirmation);
-                AuthController::signup($email, $username, $password, $password_confirmation);
+                $auth = new AuthController();
+                $auth->signup($email, $username, $password, $password_confirmation);
             }
             break;
         case 'logout':

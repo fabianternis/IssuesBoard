@@ -42,7 +42,7 @@ if (!function_exists('config')) {
         $segments = explode('.', $key);
         $file = array_shift($segments);
 
-        $configPath = __DIR__ . "/config/{$file}.php";
+        $configPath = dirname(__DIR__) . "/config/{$file}.php";
 
         if (!isset($loadedConfigs[$file])) {
             if (file_exists($configPath)) {
