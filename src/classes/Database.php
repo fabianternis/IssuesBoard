@@ -3,7 +3,7 @@
 namespace Classes;
 class Database {
 
-    private function connect() {
+    public function connect() {
         try {
             $type = config('database.type', 'mysql');
             $host = config('database.host', '127.0.0.1'); // "localhost" used for host in config ...

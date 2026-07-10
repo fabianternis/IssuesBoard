@@ -1,8 +1,10 @@
 <?php
 
-include __DIR__ . '/src/classes/controllers/signupController.php';
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/src/helpers.php';
+require __DIR__ . '/src/classes/Database.php';
+
+include __DIR__ . '/src/classes/controllers/signupController.php';
 
 function getCommitId() {
     return trim((string) shell_exec('git rev-parse --short HEAD'));
