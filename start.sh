@@ -18,5 +18,10 @@ else
     echo "State unchanged: $TARGET_FILE already exists."
 fi
 
+#composer install
+#php db/migrator.php
+
+
+
 # Replace bash process with PHP server
 exec php -S 127.0.0.1:54345 -t public/
