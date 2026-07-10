@@ -1,14 +1,26 @@
 <?php
 
+session_start();
+
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/src/helpers.php';
-require __DIR__ . '/src/classes/Database.php';
+require __DIR__ . '/src/database.php';
+//require __DIR__ . '/src/classes/Database.php';
 
-include __DIR__ . '/src/classes/controllers/signupController.php';
+//include __DIR__ . '/src/classes/controllers/signupController.php';
+
+require __DIR__ . '/src/classes/controllers/AuthController.php'; // removed after rebuild of autoload
+use Controllers\AuthController;
+
+
 
 function getCommitId() {
     return trim((string) shell_exec('git rev-parse --short HEAD'));
 }
+
+include __DIR__ . '/src/classes/models/User.php';
+
+
 
 $action = $_GET['action'] ?? null;
 
@@ -33,13 +45,20 @@ if (isset($action)) {
                 $password = $_POST['password'] ?? '';
                 $password_confirmation = $_POST['password_confirmation'] ?? '';
 
-                $signup = new SignupController($email, $username, $password, $password_confirmation);
+                // $signup = new SignupController($email, $username, $password, $password_confirmation);
+                AuthController::signup($email, $username, $password, $password_confirmation);
             }
             break;
         case 'logout':
             break;
     }
 }
+
+
+
+//$user = User::
+
+
 
 // $content = include __DIR__ . '/src/views/index.php';
 
