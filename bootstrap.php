@@ -27,11 +27,14 @@ function getCommitId() {
 
 
 $action = $_GET['action'] ?? null;
+$auth = new AuthController();
 
 if (isset($action)) {
     switch ($action) {
         case 'login':
-            echo 'WIP';
+            $identifier = $_POST['identifier'] ?? null;
+            $password = $_POST['password'] ?? null;
+            $auth->login($identifier, $password);
             break;
         case 'signup':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -48,14 +51,14 @@ if (isset($action)) {
                 $username = $_POST['username'] ?? '';
                 $password = $_POST['password'] ?? '';
                 $password_confirmation = $_POST['password_confirmation'] ?? '';
-
-                $auth = new AuthController();
                 $auth->signup($email, $username, $password, $password_confirmation);
             }
             break;
         case 'logout':
+            $auth->logout();
             break;
     }
+    header('Location: /');
 }
 
 
@@ -71,5 +74,17 @@ echo '</body>';
 include __DIR__ . '/src/views/layout/foot.php';
 
 echo(json_encode($user));
+echo "<hr>";
 echo(auth());
+echo "<hr>";
+echo($auth->check());
+echo "<hr>";
 echo(isset($user));
+?>
+
+
+
+
+<?php if($auth->check()): ?>
+<a href="?action=logout">Log out</a>
+<?php endif ?>

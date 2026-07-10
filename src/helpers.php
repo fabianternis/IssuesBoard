@@ -81,11 +81,8 @@ if (!function_exists('app_log')) {
     }
 }
 
+/* auth() currently not functional */
 function auth() {
     // if (isset($_SESSION['user_id']) && $user)
-    if (isset($user)) {
-        return true;
-    } else {
-        return false;
-    }
+    return isset($user);
 }
