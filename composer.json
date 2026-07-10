@@ -2,7 +2,10 @@
     "require": {
         "blakvghost/php-validator": "^2.3",
         "ramsey/uuid": "^4.9",
-        "illuminate/database": "^13.19"
+        "illuminate/database": "^13.19",
+        "knplabs/github-api": "^3.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "http-interop/http-factory-guzzle": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -12,5 +15,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^13.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

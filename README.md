@@ -16,4 +16,11 @@ Open `127.0.0.1:54345`in your Browser
 _note: `start.sh`is the only file, ai worked on_
 
 ##### Why This way?
-Because i may add some more "processes" in the background that ten all get started with this OEN script. additionally the port of the webserver is always the same ...
+Because i may add some more "processes" in the background that then all get started with this OEN script. additionally the port of the webserver is always the same ...
+
+
+## Used Packages
+### blakvghost/php-validator
+### ramsey/uuid
+### illuminate/database
+### knplabs/github-api
