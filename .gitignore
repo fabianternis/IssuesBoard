@@ -1,6 +1,8 @@
 .env
 .DS_Store
 *.env
+!.env.example
 .vscode/
 composer.lock
 vendor/
+*.cache
