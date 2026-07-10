@@ -1,3 +1,2 @@
-<body>
-    <?php include __DIR__ . '/forms/signup.php' ?>
-</body>
+
+    <?php if(!auth()) {include __DIR__ . '/forms/signup.php'; }; ?>

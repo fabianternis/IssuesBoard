@@ -1,7 +1,7 @@
 <?php
 
-if (!function_exists('env')) {
-    function env(string $key, $default = null) {
+if (!function_exists('dotenv')) {
+    function dotenv(string $key, $default = null) {
         $value = getenv($key);
 
         if ($value === false) {
@@ -78,5 +78,14 @@ if (!function_exists('getCommitId')) {
 if (!function_exists('app_log')) {
     function app_log($message, $type) {
         return null;
+    }
+}
+
+function auth() {
+    // if (isset($_SESSION['user_id']) && $user)
+    if (isset($user)) {
+        return true;
+    } else {
+        return false;
     }
 }

@@ -3,8 +3,15 @@
 session_start();
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/helpers.php';
-require __DIR__ . '/src/database.php';
+
+
+require_once __DIR__ . '/src/helpers.php';
+require_once __DIR__ . '/src/database.php';
+
+use Models\User;
+
+$user = User::where('id', $_SESSION['user_id'])->get();
+
 //require __DIR__ . '/src/classes/Database.php';
 
 //include __DIR__ . '/src/classes/controllers/signupController.php';
@@ -13,12 +20,9 @@ require __DIR__ . '/src/classes/controllers/AuthController.php'; // removed afte
 use Controllers\AuthController;
 
 
-
 function getCommitId() {
     return trim((string) shell_exec('git rev-parse --short HEAD'));
 }
-
-include __DIR__ . '/src/classes/models/User.php';
 
 
 
@@ -56,9 +60,6 @@ if (isset($action)) {
 
 
 
-//$user = User::
-
-
 
 // $content = include __DIR__ . '/src/views/index.php';
 
@@ -68,3 +69,7 @@ echo '<body>';
 include __DIR__ . '/src/views/index.php';
 echo '</body>';
 include __DIR__ . '/src/views/layout/foot.php';
+
+echo(json_encode($user));
+echo(auth());
+echo(isset($user));
