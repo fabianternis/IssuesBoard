@@ -1,5 +1,6 @@
 <?php
 
+namespace Classes;
 class Database {
 
     private function connect() {
@@ -16,7 +17,7 @@ class Database {
 
         } catch (PDOException $e) {
             log($e->getMessage());
-            
+
             die();
         }
     }

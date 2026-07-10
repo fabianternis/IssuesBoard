@@ -1,9 +1,12 @@
 <?php
 
+namespace Classes\Controllers;
+
 use BlakvGhost\PHPValidator\Validator;
 use BlakvGhost\PHPValidator\ValidatorException;
+use Classes\Database;
 
-class SignupController {
+class SignupController extends Database {
 
     private $username;
     private $email;
@@ -47,6 +50,23 @@ class SignupController {
         $this->password = password_hash($validated['password']);
     }
 
+    // ToDo: move to User-model ...
+    protected function checkUser() {
+        // $statement = $this->connect()->prepare('SELECT id FROM users WHERE email = $this->email OR username = $this->username;');
+        $statement = $this->connect()->prepare('SELECT id FROM users WHERE email = ? OR username = ?;');
 
+        if(!$statement->execute(array($email, $username))) {
+            $statement = null;
+            // header('Location: /index.php?error=statement-failed' . ($action ? "&action={$action}" : ''));
+            header('Location: /index.php?error=statement-failed' . (($_GET['action'] ?? null) ? '&action=' . urlencode($_GET['action']) : ''));
 
+            exit();
+        }
+
+        if($statement->rowCount() > 0) {
+            return false;
+        } else { // does not have to be else ...
+            return true;
+        };
+    }
 }

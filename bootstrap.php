@@ -43,17 +43,7 @@ if (isset($action)) {
 
 
 include __DIR__ . '/src/views/layout/head.php';
+echo '<body>';
 include __DIR__ . '/src/views/index.php';
-
-
-
-
-$commitHash = getCommitId();
-
-if ($commitHash) {
-    $safeCommitHash = htmlspecialchars((string)$commitHash, ENT_QUOTES, 'UTF-8');
-    
-    echo '<span class="commit-id"><a href="https://github.com/fabianternis/IssuesBoard/commit/' . $safeCommitHash . '">' . $safeCommitHash . '</a></span>';
-} else {
-    echo '<span class="commit-id error"> Deployment Commit: UNKNOWN (Git execution failed) </span>';
-}
+echo '</body>';
+include __DIR__ . '/src/views/layout/foot.php';

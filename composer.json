@@ -1,5 +1,6 @@
 {
     "require": {
-        "blakvghost/php-validator": "^2.3"
+        "blakvghost/php-validator": "^2.3",
+        "ramsey/uuid": "^4.9"
     }
 }
