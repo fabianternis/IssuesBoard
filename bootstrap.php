@@ -69,9 +69,18 @@ if (isset($action)) {
 
 include __DIR__ . '/src/views/layout/head.php';
 echo '<body>';
+include __DIR__ . '/src/views/layout/navbar.php';
+echo '<main>';
 include __DIR__ . '/src/views/index.php';
+echo '</main>';
 echo '</body>';
 include __DIR__ . '/src/views/layout/foot.php';
+
+
+
+
+echo "<!--";
+
 
 echo(json_encode($user));
 echo "<hr>";

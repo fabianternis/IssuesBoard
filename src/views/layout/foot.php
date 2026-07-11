@@ -13,7 +13,7 @@
                 </a>
             </span>
         <?php else: ?>
-            <span class="commit-id error"> Deployment Commit: UNKNOWN (Git execution failed) </span>
+            <span class="commit-id error">UNKNOWN Commit (Git execution failed) </span>
         <?php endif; ?>
     </div>
 </footer>

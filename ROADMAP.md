@@ -9,3 +9,8 @@
 
 
 Other Stuff (just building without a CLEAR plan ...)
+
+
+
+
+- maybe store username in SESSION to have lewss db-connections
