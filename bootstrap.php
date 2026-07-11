@@ -27,15 +27,20 @@ function getCommitId() {
 
 
 
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $action = $_GET['action'] ?? null;
 $auth = new AuthController();
+$view_name = 'error';
+$http_code = 300;
 
 if (isset($action)) {
+    $target_uri = $uri;
     switch ($action) {
         case 'login':
             $identifier = $_POST['identifier'] ?? null;
             $password = $_POST['password'] ?? null;
             $auth->login($identifier, $password);
+            $target_uri = '/dashboard';
             break;
         case 'signup':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,21 +58,37 @@ if (isset($action)) {
                 $password = $_POST['password'] ?? '';
                 $password_confirmation = $_POST['password_confirmation'] ?? '';
                 $auth->signup($email, $username, $password, $password_confirmation);
+            $target_uri = '/dashboard';
             }
             break;
         case 'logout':
             $auth->logout();
+            $target_uri = '/';
             break;
     }
-    header('Location: /');
+    header('Location: '.$target_uri);
 }
 
+switch ($uri) {
+    case '/':
+        $view_name = 'index';
+        break;
+    case '/dashboard':
+        if ($auth->check()) {
+            $view_name = 'dashboard';
+        } else {
+            $http_code = 403;
+        }
+        break;
+    default:
+        $http_code = 404;
+}
 
 if (isset($_GET['pid']) && $auth->check()) {
     $project = Project::where('id', $_GET['pid'])->first();
 }
 
-
+http_response_code($http_code);
 
 
 // $content = include __DIR__ . '/src/views/index.php';
@@ -77,7 +98,7 @@ include __DIR__ . '/src/views/layout/head.php';
 echo '<body>';
 include __DIR__ . '/src/views/layout/navbar.php';
 echo '<main>';
-include __DIR__ . '/src/views/index.php';
+include __DIR__ . "/src/views/{$view_name}.php";
 echo '</main>';
 echo '</body>';
 include __DIR__ . '/src/views/layout/foot.php';

@@ -1,15 +1,4 @@
-# ModRewrite aktivieren
 RewriteEngine On
-
-# ModRewrite nicht bei Dateien oder Ordnern greifen lassen
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Url umschreiben
-RewriteRule (.+) index.php?path=$0 [L,QSA]
-
-
-
-
-
-# Credits: https://medium.com/@stephan.romhart/performantes-url-routing-mit-php-und-regul%C3%A4ren-ausdr%C3%BCcken-regex-f401b2c6f87d
+RewriteRule ^(.*)$ index.php [QSA,L]
