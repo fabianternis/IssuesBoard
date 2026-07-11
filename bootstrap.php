@@ -44,6 +44,7 @@ function Auth() {
 
 if (isset($action)) {
     if (isset($object)){
+        $dead = false;
         // switch($object) {
         //     case 'project';
     
@@ -55,11 +56,21 @@ if (isset($action)) {
 
         if(!class_exists($className)) {
             $http_code = 404;
-            $http_code_force = true;
-            $msg="Object \"{$object}\" could not be found";
-            // die($msg);
-            $error_message = $msg;
+            $error_message = "Object \"{$object}\" could not be found.";
+        } else {
+            $controller = new $className();
+            if (!method_exists($controller, $action) || !is_callable([$controller, $action])) {
+                $http_code = 405;
+                $error_message = "Action '{$action}' is invalid for object \"{$object}\".";
+            } elseif (in_array($action, ['create', 'update', 'delete', 'store']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+                $http_code = 405;
+                $error_message = 'This action requires POST.';
+            } else {
+                $controller->$action();
+                exit;
+            }
         }
+
 
 
 
@@ -98,13 +109,18 @@ if (isset($action)) {
     }
 }
 
+if(!isset($error_message)) {
+    $http_code = 200;
+// }
 switch ($uri) {
     case '/':
         $view_name = 'home';
+        // $http_code = 200;
         break;
     case '/dashboard':
         if ($auth->check()) {
             $view_name = 'dashboard';
+            // $http_code = 200;
         } else {
             // $http_code = 403;
             $http_code = 401;
@@ -113,6 +129,7 @@ switch ($uri) {
     case '/auth':
         if (!$auth->check()) {
             $view_name = 'auth';
+            // $http_code = 200;
         } else {
             $target_uri = '/';
             $http_code = 302;
@@ -121,7 +138,7 @@ switch ($uri) {
     default:
         $http_code = 404;
 }
-
+}
 if (isset($_GET['pid']) && $auth->check()) {
     $project = Project::where('id', $_GET['pid'])->first();
 }
@@ -131,7 +148,7 @@ if (isset($_GET['pid']) && $auth->check()) {
 //     header('Location: '.$target_uri);
 // }
 if ($target_uri !== $uri) {
-    $redirect_code = $http_code_force ? $http_code : (($http_code === 404) ? 302 : $http_code);
+    $redirect_code = ($http_code_force || isset($error_message)) ? $http_code : (($http_code === 404) ? 302 : $http_code);
     // http_response_code($redirect_code);
     $http_code = $redirect_code;
     header('Location: ' . $target_uri);
