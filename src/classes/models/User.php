@@ -17,7 +17,8 @@ class User extends Model
     public $timestamps = false; 
 
     function projects() {
-        return Project::where('user_id', $this->id);
+        // return Project::where('user_id', $this->id);
+        return $this->hasMany(Project::class, 'user_id', 'id');
     }
 
     function hasProjects(): bool

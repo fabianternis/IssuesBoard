@@ -56,15 +56,18 @@ if (isset($action)) {
 
         if(!class_exists($className)) {
             $http_code = 404;
-            $error_message = "Object \"{$object}\" could not be found.";
+            $error_message = "Object '{$object}' could not be found.";
         } else {
             $controller = new $className();
             if (!method_exists($controller, $action) || !is_callable([$controller, $action])) {
                 $http_code = 405;
-                $error_message = "Action '{$action}' is invalid for object \"{$object}\".";
-            } elseif (in_array($action, ['create', 'update', 'delete', 'store']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+                $error_message = "Action '{$action}' is invalid for object '{$object}'.";
+            } elseif (in_array($action, ['update', 'delete', 'store']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
                 $http_code = 405;
                 $error_message = 'This action requires POST.';
+            } elseif (in_array($action, ['show', 'update', 'delete']) && !isset($_GET['id'])) {
+                $http_code = 404;
+                $error_message = "There is no specific item of object '{$object}' defined.";
             } else {
                 $controller->$action();
                 exit;
