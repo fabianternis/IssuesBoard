@@ -24,3 +24,9 @@ Because i may add some more "processes" in the background that then all get star
 ### ramsey/uuid
 ### illuminate/database
 ### knplabs/github-api
+
+
+Action defines what happens and Object defines how teh "structure" (e.g. form) is ...
+---
+action=new: show creation form
+action=create: create the Object (in DB)

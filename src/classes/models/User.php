@@ -19,4 +19,10 @@ class User extends Model
     function projects() {
         return Project::where('user_id', $this->id);
     }
+
+    function hasProjects(): bool
+    {
+        // return (count($this->projects()) > 0);
+        return $this->projects()->exists();
+    }
 }

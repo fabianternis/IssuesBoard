@@ -29,55 +29,93 @@ function getCommitId() {
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $action = $_GET['action'] ?? null;
+$object = $_GET['object'] ?? null;
 $auth = new AuthController();
 $view_name = 'error';
-$http_code = 300;
+$http_code = 404;
+$http_code_force = false;
+$error_message = null;
+$target_uri = $uri;
+function Auth() {
+    global $auth;
+    return $auth;
+}
+
 
 if (isset($action)) {
-    $target_uri = $uri;
-    switch ($action) {
-        case 'login':
-            $identifier = $_POST['identifier'] ?? null;
-            $password = $_POST['password'] ?? null;
-            $auth->login($identifier, $password);
-            $target_uri = '/dashboard';
-            break;
-        case 'signup':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                /*
-                $data['email'] = $_POST['email'];
-                $data['username'] = $_POST['username'];
-                $data['password'] = $_POST['password'];
-                $data['password_confirmation'] = $_POST['password_confirmation'];
+    if (isset($object)){
+        // switch($object) {
+        //     case 'project';
+    
+        //     $target_uri = '/post?pid='.$project->id;
+        // }        
 
-                $signup = new SignupController($data);
-                */
 
-                $email = $_POST['email'] ?? '';
-                $username = $_POST['username'] ?? '';
-                $password = $_POST['password'] ?? '';
-                $password_confirmation = $_POST['password_confirmation'] ?? '';
-                $auth->signup($email, $username, $password, $password_confirmation);
-            $target_uri = '/dashboard';
-            }
-            break;
-        case 'logout':
-            $auth->logout();
-            $target_uri = '/';
-            break;
+        $className = '\\Controllers\\' . ucfirst(strtolower($object)) . 'Controller';
+
+        if(!class_exists($className)) {
+            $http_code = 404;
+            $http_code_force = true;
+            $msg="Object \"{$object}\" could not be found";
+            // die($msg);
+            $error_message = $msg;
+        }
+
+
+
+    } else {
+        switch ($action) {
+            case 'login':
+                $identifier = $_POST['identifier'] ?? null;
+                $password = $_POST['password'] ?? null;
+                $auth->login($identifier, $password);
+                $target_uri = '/dashboard';
+                break;
+            case 'signup':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    /*
+                    $data['email'] = $_POST['email'];
+                    $data['username'] = $_POST['username'];
+                    $data['password'] = $_POST['password'];
+                    $data['password_confirmation'] = $_POST['password_confirmation'];
+
+                    $signup = new SignupController($data);
+                    */
+
+                    $email = $_POST['email'] ?? '';
+                    $username = $_POST['username'] ?? '';
+                    $password = $_POST['password'] ?? '';
+                    $password_confirmation = $_POST['password_confirmation'] ?? '';
+                    $auth->signup($email, $username, $password, $password_confirmation);
+                $target_uri = '/dashboard';
+                }
+                break;
+            case 'logout':
+                $auth->logout();
+                $target_uri = '/';
+                break;
+        }
     }
-    header('Location: '.$target_uri);
 }
 
 switch ($uri) {
     case '/':
-        $view_name = 'index';
+        $view_name = 'home';
         break;
     case '/dashboard':
         if ($auth->check()) {
             $view_name = 'dashboard';
         } else {
-            $http_code = 403;
+            // $http_code = 403;
+            $http_code = 401;
+        }
+        break;
+    case '/auth':
+        if (!$auth->check()) {
+            $view_name = 'auth';
+        } else {
+            $target_uri = '/';
+            $http_code = 302;
         }
         break;
     default:
@@ -88,14 +126,28 @@ if (isset($_GET['pid']) && $auth->check()) {
     $project = Project::where('id', $_GET['pid'])->first();
 }
 
+// http_response_code($http_code);
+// if(!($uri == '/' && $target_uri == '/')) {
+//     header('Location: '.$target_uri);
+// }
+if ($target_uri !== $uri) {
+    $redirect_code = $http_code_force ? $http_code : (($http_code === 404) ? 302 : $http_code);
+    // http_response_code($redirect_code);
+    $http_code = $redirect_code;
+    header('Location: ' . $target_uri);
+    exit;
+}
 http_response_code($http_code);
+if ($http_code == 404) {
+    $view_name = 'error';
+}
 
 
 // $content = include __DIR__ . '/src/views/index.php';
 
 
 include __DIR__ . '/src/views/layout/head.php';
-echo '<body>';
+echo "<body class=\"{$view_name}-page\">";
 include __DIR__ . '/src/views/layout/navbar.php';
 echo '<main>';
 include __DIR__ . "/src/views/{$view_name}.php";
@@ -111,7 +163,6 @@ echo "<!--";
 
 echo(json_encode($user));
 echo "<hr>";
-echo(auth());
 echo "<hr>";
 echo($auth->check());
 echo "<hr>";

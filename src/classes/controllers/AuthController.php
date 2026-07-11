@@ -95,5 +95,10 @@ class AuthController /*extends Controller*/ {
         if($this->check()) {
             return User::where('id', $_SESSION['user_id'])->first();
         };
+        return null;
+    }
+
+    function id() {
+        return $_SESSION['user_id'];
     }
 }

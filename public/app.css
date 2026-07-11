@@ -23,9 +23,13 @@ form {
     padding: 1rem;
     border-radius: 1rem;
     background-color: beige;
+    border: 3px solid black;
+    width: fit-content;
+    margin: .25em;
 }
 
 footer {
+    margin-top: 2em;
     width: 100%;
     color: lightgray;
     background-color: darkslateblue;

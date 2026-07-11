@@ -82,7 +82,56 @@ if (!function_exists('app_log')) {
 }
 
 /* auth() currently not functional */
-function auth() {
-    // if (isset($_SESSION['user_id']) && $user)
-    return isset($user);
+// function auth(): bool {
+//     // if (isset($_SESSION['user_id']) && $user)
+//     return isset($user);
+// }
+
+/* Example 
+
+(
+?arction=test,
+[
+    [
+        'type' => 'text',
+        'name' => 'username',
+        'placeholder' => 'Cool Name',
+        'required' => null,
+        'value' => 'user99',
+        'class' => 'cool-input',
+     ],
+    [
+        'type' => 'submit',
+        'value' => 'SuBmIt',
+    ],
+],
+'testForm',
+'put',
+)
+
+*/
+function echoForm(string $action, array $inputs, ?string $id = null, string $method = 'post', $attriubutes = [['t', 'o',], ['d', 'o',],]) {
+    $form = '';
+
+    $id_attribute = $id !== null ? sprintf(" id=\"{$id}\"") : '';
+
+
+    $form = sprintf('<form action="%s" method="%s"%s>', $action, $method, $id_attribute); // dubble-quotes would have been too painful
+    
+    foreach($inputs as $input) {
+        $form .= '<input';
+
+        // if(has('class', $input)) {
+        //     $form .= " class=\"{$\"";
+        // }
+
+        foreach($input as $attribute => $value) {
+            $form .= " {$attribute}=\"{$value}\"";
+        }
+        $form .= '>';
+    }
+
+    $form .= '</form>';
+
+    echo $form;
 }
