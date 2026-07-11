@@ -15,4 +15,8 @@ class User extends Model
     protected $fillable = ['id', 'username', 'email', 'password'];
 
     public $timestamps = false; 
+
+    function projects() {
+        return Project::where('user_id', $this->id);
+    }
 }

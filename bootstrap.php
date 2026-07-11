@@ -9,6 +9,7 @@ require_once __DIR__ . '/src/helpers.php';
 require_once __DIR__ . '/src/database.php';
 
 use Models\User;
+use Models\Project;
 
 $user = User::where('id', $_SESSION['user_id'])->get();
 
@@ -59,6 +60,11 @@ if (isset($action)) {
             break;
     }
     header('Location: /');
+}
+
+
+if (isset($_GET['pid']) && $auth->check()) {
+    $project = Project::where('id', $_GET['pid'])->first();
 }
 
 
