@@ -101,4 +101,23 @@ class AuthController /*extends Controller*/ {
     function id() {
         return $_SESSION['user_id'];
     }
+    
+    function can($object, $action) // $action may be used later
+    {
+        global $error_message, $http_code;
+
+        if (!$this->check()) {
+            $http_code = 401;
+            $error_message = 'Authentication required';
+            return false;
+        }
+
+        if (isset($object->user_id) && $object->user_id !== $this->id()) {
+            $http_code = 403;
+            $error_message = 'You have no permission to access this resource';
+            return false;
+        }
+
+        return true;
+    }
 }

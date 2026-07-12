@@ -57,7 +57,7 @@ class ProjectController extends Controller
         if (!isset($project)) {
             $http_code = 404;
             $error_message = 'Project could not be found';
-        } elseif (Auth()->id() !== $project->user_id) {
+        } elseif (!Auth()->can($project, 'edit')) {
             $http_code = 403;
             $error_message = 'You have no permission to access this Project';
         } else {
@@ -94,7 +94,7 @@ class ProjectController extends Controller
         if (!isset($project)) {
             $http_code = 404;
             $error_message = 'Project could not be found';
-        } elseif (Auth()->id() !== $project->user_id) {
+        } elseif (!Auth()->can($project, 'update')) {
             $http_code = 403;
             $error_message = 'You have no permission to access this Project';
         } else {
@@ -109,18 +109,19 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        global $http_code, $error_message;
+        global $http_code, $error_message, $view_name;
         
         $project = Project::where('id', $id)->first();
 
         if (!isset($project)) {
             $http_code = 404;
             $error_message = 'Project could not be found';
-        } elseif (Auth()->id() !== $project->user_id) {
-            $http_code = 403;
+        } elseif (!Auth()->can($project, 'show')) {
+            // can() gets overwritten
             $error_message = 'You have no permission to access this Project';
         } else {
-            var_dump($project);
+            // var_dump($project);
+            $view_name = 'board';
         }
     }
 
@@ -133,8 +134,8 @@ class ProjectController extends Controller
         if (!isset($project)) {
             $http_code = 404;
             $error_message = 'Project could not be found';
-        } elseif (Auth()->id() !== $project->user_id) {
-            $http_code = 403;
+        } elseif (!Auth()->can($project, 'delete')) {
+            // overwrites the can()
             $error_message = 'You have no permission to access this Project';
         } else {
             $project->delete();

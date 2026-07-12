@@ -26,12 +26,11 @@ function getCommitId() {
 }
 
 
-
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $action = $_GET['action'] ?? null;
 $object = $_GET['object'] ?? null;
 $auth = new AuthController();
-$view_name = 'error';
+$view_name = null;
 $http_code = 404;
 $http_code_force = false;
 $error_message = null;
@@ -111,6 +110,9 @@ if (isset($action)) {
     }
 }
 
+if(!isset($view_name)) {
+    $view_name = 'error';
+}
 if(!isset($error_message)) {
     $http_code = 200;
 // }
