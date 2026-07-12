@@ -51,7 +51,6 @@ if (isset($action)) {
         //     $target_uri = '/post?pid='.$project->id;
         // }        
 
-
         $className = '\\Controllers\\' . ucfirst(strtolower($object)) . 'Controller';
 
         if(!class_exists($className)) {
@@ -65,18 +64,18 @@ if (isset($action)) {
             } elseif (in_array($action, ['update', 'delete', 'store']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
                 $http_code = 405;
                 $error_message = 'This action requires POST.';
-            } elseif (in_array($action, ['show', 'update', 'delete']) && !isset($_GET['id'])) {
+            } elseif (in_array($action, ['show', 'edit', 'update', 'delete']) && !isset($_GET['id'])) {
                 $http_code = 404;
                 $error_message = "There is no specific item of object '{$object}' defined.";
             } else {
-                $controller->$action();
+                if(isset($_GET['id'])) {
+                    $controller->$action(id: $_GET['id']);
+                } else {
+                    $controller->$action();
+                }
                 exit;
             }
         }
-
-
-
-
     } else {
         switch ($action) {
             case 'login':

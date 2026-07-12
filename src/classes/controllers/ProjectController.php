@@ -7,9 +7,9 @@ use Ramsey\Uuid\Uuid;
 
 class ProjectController extends Controller
 {
-    public function new(): void 
+    public function create(): void 
     {
-        $target_action = '/dashboard?action=create&object=project';
+        $target_action = '/dashboard?action=store&object=project';
         
         $inputs = [
             [
@@ -33,7 +33,7 @@ class ProjectController extends Controller
     }
 
 
-    public function create() 
+    public function store() 
     {
         $project = Project::create([
             'id' => (string) Uuid::uuid4(),
@@ -43,8 +43,87 @@ class ProjectController extends Controller
             'repo_url' => $_POST['repository'] ?? null,
         ]);
 
-        // State transition post-execution
-        header('Location: /dashboard?action=index&object=project');
+        // header('Location: /dashboard?action=index&object=project');
+        header('Location: /dashboard?action=show&object=project?id='.$project->id);
         exit;
     }
+
+    // public function index()
+
+
+    public function edit($id) 
+    {
+
+        $target_action = '/dashboard?action=update&object=project&id='.$id;
+        $project = Project::where('id', $id)->first();
+
+        if(!isset($project)) {
+            $http_code = 404;
+            $error_message = 'Project could not be found';
+        } elseif(!Auth()->id() == $project->user_id) {
+            $http_code = 403;
+            $error_message = 'YOu have no permission to access this Project';
+        } else {
+            $inputs = [
+                [
+                    'type' => 'text',
+                    'name' => 'name',
+                    'placeholder' => 'Project Name',
+                    'required' => null,
+                    'value' => $project->name,
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'description',
+                    'placeholder' => 'Description',
+                    'value' => $project->description,
+                ],
+                [
+                    'type' => 'submit',
+                    'value' => 'Update Project',
+                ],
+            ];
+            
+            echoForm($target_action, $inputs, 'form-edit-project', 'POST');
+        }
+    }
+
+    public function update($id)
+    {
+        $project = Project::where('id', $id)->first();
+
+        if (!isset($project)) {
+            http_response_code(404);
+            echo 'Project could not be found';
+        } elseif (Auth()->id() !== $project->user_id) {
+            http_response_code(403);
+            echo 'You have no permission to access this Project';
+        } else {
+            $project->update([
+                'name' => $_POST['name'] ?? $project->name,
+                'description' => $_POST['description'] ?? $project->description,
+            ]);
+
+            header('Location: /dashboard?action=show&object=project&id=' . $project->id);
+        }
+    }
+
+    public function show($id)
+    {
+        $project = Project::where('id', $id)->first();
+
+        if (!isset($project)) {
+            http_response_code(404);
+            echo 'Project could not be found';
+        } elseif (Auth()->id() !== $project->user_id) {
+            http_response_code(403);
+            echo 'You have no permission to access this Project';
+        } else {
+            var_dump($project);
+        }
+    }
 }
+
+// index, create, store, show, edit, update
+
+// ToDo: "validation"
