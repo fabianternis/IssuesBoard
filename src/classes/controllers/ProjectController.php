@@ -90,6 +90,7 @@ class ProjectController extends Controller
 
     public function update($id)
     {
+        global $target_uri;
         $project = Project::where('id', $id)->first();
 
         if (!isset($project)) {
@@ -104,7 +105,7 @@ class ProjectController extends Controller
                 'description' => $_POST['description'] ?? $project->description,
             ]);
 
-            header('Location: /dashboard?action=show&object=project&id=' . $project->id);
+            $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
         }
     }
 
@@ -120,6 +121,23 @@ class ProjectController extends Controller
             echo 'You have no permission to access this Project';
         } else {
             var_dump($project);
+        }
+    }
+
+    public function delete($id)
+    {
+        global $target_uri;
+        $project = Project::where('id', $id)->first();
+
+        if (!isset($project)) {
+            http_response_code(404);
+            echo 'Project could not be found';
+        } elseif (Auth()->id() !== $project->user_id) {
+            http_response_code(403);
+            echo 'You have no permission to access this Project';
+        } else {
+            $project->delete();
+            $target_uri = '/dashboard';
         }
     }
 }
