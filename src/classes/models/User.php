@@ -16,6 +16,17 @@ class User extends Model
 
     public $timestamps = false; 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
+
     function projects() {
         // return Project::where('user_id', $this->id);
         return $this->hasMany(Project::class, 'user_id', 'id');

@@ -3,19 +3,27 @@
 namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
-class Project extends Model 
+class Item extends Model 
 {
-    protected $table = 'projects';
+    protected $table = 'items';
 
     public $incrementing = false;
-    
     protected $keyType = 'string';
 
-    protected $fillable = ['id', 'user_id', /*'slug',*/ 'name', 'description', 'repo_url'];
+    public $timestamps = true; 
 
-    public $timestamps = false; 
-
+    protected $fillable = [
+        'id', 
+        'project_id', 
+        'name', 
+        'description', 
+        'type',
+        'state',
+        'external_url'
+        // 'image_url'
+    ];
     protected static function boot()
     {
         parent::boot();
@@ -27,8 +35,8 @@ class Project extends Model
         });
     }
 
-    public function items()
+    public function project()
     {
-        return null;
+        return $this->belongsTo(Project::class, 'project_id');
     }
 }
