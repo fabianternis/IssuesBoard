@@ -107,9 +107,9 @@ class ProjectController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(string $id): void
     {
-        global $http_code, $error_message, $view_name;
+        global $http_code, $error_message, $view_name, $project;
         
         $project = Project::where('id', $id)->first();
 
@@ -119,8 +119,11 @@ class ProjectController extends Controller
         } elseif (!Auth()->can($project, 'show')) {
             // can() gets overwritten
             $error_message = 'You have no permission to access this Project';
+            $http_code = 403;
         } else {
             // var_dump($project);
+            // die('test');
+            // die($project);
             $view_name = 'board';
         }
     }

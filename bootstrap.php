@@ -72,7 +72,7 @@ if (isset($action)) {
                 } else {
                     $controller->$action();
                 }
-                exit;
+                //exit; THIS F***ING LINE OF CODE COST ME about 1h of DEBUGGING
             }
         }
     } else {
@@ -113,9 +113,11 @@ if (isset($action)) {
 if(!isset($view_name)) {
     $view_name = 'error';
 }
+// if(!isset($error_message) && !isset($view_name)) {
 if(!isset($error_message)) {
     $http_code = 200;
 // }
+if(!isset($view_name)) {
 switch ($uri) {
     case '/':
         $view_name = 'home';
@@ -143,6 +145,7 @@ switch ($uri) {
         $http_code = 404;
 }
 }
+}
 if (isset($_GET['pid']) && $auth->check()) {
     $project = Project::where('id', $_GET['pid'])->first();
 }
@@ -165,8 +168,9 @@ if ($http_code == 404) {
 
 
 // $content = include __DIR__ . '/src/views/index.php';
-
-
+if ((isset($_GET['debug']) && $_GET['debug'] === 'hard') || (isset($_GET['debug_view']) && $_GET['debug_view'] == 1)) {
+    die($view_name);
+}
 include __DIR__ . '/src/views/layout/head.php';
 echo "<body class=\"{$view_name}-page\">";
 include __DIR__ . '/src/views/layout/navbar.php';
