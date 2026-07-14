@@ -29,6 +29,6 @@ class Project extends Model
 
     public function items()
     {
-        return null;
+        return $this->hasMany(Item::class, 'project_id');
     }
 }

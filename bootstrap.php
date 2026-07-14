@@ -11,7 +11,9 @@ require_once __DIR__ . '/src/database.php';
 use Models\User;
 use Models\Project;
 
+if(isset($_SESSION['user_id'])) {
 $user = User::where('id', $_SESSION['user_id'])->get();
+}
 
 //require __DIR__ . '/src/classes/Database.php';
 
@@ -110,9 +112,7 @@ if (isset($action)) {
     }
 }
 
-if(!isset($view_name)) {
-    $view_name = 'error';
-}
+
 // if(!isset($error_message) && !isset($view_name)) {
 if(!isset($error_message)) {
     $http_code = 200;
@@ -143,11 +143,16 @@ switch ($uri) {
         break;
     default:
         $http_code = 404;
+        // $view_name = 'error';
 }
 }
 }
 if (isset($_GET['pid']) && $auth->check()) {
     $project = Project::where('id', $_GET['pid'])->first();
+}
+
+if(!isset($view_name)) {
+    $view_name = 'error';
 }
 
 // http_response_code($http_code);
