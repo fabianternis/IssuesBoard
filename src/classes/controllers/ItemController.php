@@ -9,10 +9,12 @@ use Ramsey\Uuid\Uuid;
 class ItemController extends Controller
 {
 
-    public function store() 
+    public function store($id) 
     {        
-        $project = Project::where('id', $_GET['pid'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
+        $project = Project::where('id', $id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
         
+        die('reached function'); // it did not
+
         $item = Item::create([
             'id' => (string) Uuid::uuid4(),
             'project_id' => $project->id,
@@ -27,7 +29,7 @@ class ItemController extends Controller
     {
         global $http_code, $error_message, $target_uri;
         
-        $item = Item::where('id', $_GET['id'])->firstOrFail();
+        $item = Item::where('id', $id)->firstOrFail();
         $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail(); // $item->project() maybe and authorization later via can() ...
 
         if (!isset($project)) {

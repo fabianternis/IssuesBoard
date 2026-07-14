@@ -34,7 +34,8 @@
     </div>
 
     <!-- <form action="?acrion=create&object=item&pid=" -->
-    <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm">
+    <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
+    <form action="?acrion=store&object=item&id=<?= $project->id ?>" method="post" id="itemCreationForm">
         <label for="name">Name/Title</label>
         <input type="text" name="name" placeholder="Auth Issue">
 
