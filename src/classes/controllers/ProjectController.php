@@ -111,8 +111,8 @@ class ProjectController extends Controller
     {
         global $http_code, $error_message, $view_name, $project;
         
-        $project = Project::where('id', $id)->first();
-
+        $project = Project::where('id', $_GET['pid'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
+        
         if (!isset($project)) {
             $http_code = 404;
             $error_message = 'Project could not be found';

@@ -45,7 +45,7 @@ function Auth() {
 
 if (isset($action)) {
     if (isset($object)){
-        $dead = false;
+        // $dead = false;
         // switch($object) {
         //     case 'project';
     
