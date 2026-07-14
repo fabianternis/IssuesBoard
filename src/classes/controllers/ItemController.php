@@ -51,7 +51,22 @@ class ItemController extends Controller
 
     public function delete($id)
     {
-        // ToDO
+        global $http_code, $error_message, $target_uri;
+
+        $item = Item::where('id', $id)->firstOrFail();
+
+        $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
+
+        if (!isset($project)) {
+            $http_code = 404;
+            // $error_message = 'No matching item could not be found';
+            $error_message = 'No matching Object could not be found';
+        } elseif (!Auth()->can($project, 'update')) {
+            // overwrites the can()
+            $error_message = 'You have no permission to perform this Action';
+        } else {
+            $item->delete();
+        }
     }
 }
 
