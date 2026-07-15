@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\Project;
+use Models\{Project, Item};
 use Ramsey\Uuid\Uuid;
 
 class ProjectController extends Controller
@@ -109,9 +109,11 @@ class ProjectController extends Controller
 
     public function show(string $id): void
     {
-        global $http_code, $error_message, $view_name, $project;
+        global $http_code, $error_message, $view_name, $project, $items;
         
         $project = Project::where('id', $_GET['id'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
+        // $items = $project->items();
+        $items = Item::where('project_id', $project->id)->get();
 
         if (!isset($project)) {
             $http_code = 404;

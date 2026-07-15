@@ -19,7 +19,7 @@ $user = User::where('id', $_SESSION['user_id'])->get();
 
 //include __DIR__ . '/src/classes/controllers/signupController.php';
 
-require __DIR__ . '/src/classes/controllers/AuthController.php'; // removed after rebuild of autoload
+// require __DIR__ . '/src/classes/controllers/AuthController.php'; // removed after rebuild of autoload
 use Controllers\AuthController;
 
 
@@ -48,9 +48,9 @@ if (isset($action)) {
         // $dead = false;
         // switch($object) {
         //     case 'project';
-    
+
         //     $target_uri = '/post?pid='.$project->id;
-        // }        
+        // }
 
         $className = '\\Controllers\\' . ucfirst(strtolower($object)) . 'Controller';
 
@@ -74,7 +74,7 @@ if (isset($action)) {
                 } else {
                     $controller->$action();
                 }
-                //exit; THIS F***ING LINE OF CODE COST ME about 1h of DEBUGGING
+                //exit; THIS F***ING LINE OF CODE COST ME about 1h of DEBUGGING – might keep this line forever ...
             }
         }
     } else {

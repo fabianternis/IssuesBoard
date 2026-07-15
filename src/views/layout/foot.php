@@ -16,5 +16,7 @@
             <span class="commit-id error">UNKNOWN Commit (Git execution failed) </span>
         <?php endif; ?>
     </div>
+
+    <img src="https://hackatime.hackclub.com/api/v1/badge/U0B8JTZDTKQ/fabianternis/IssuesBoard">
 </footer>
 </html>

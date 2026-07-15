@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\Project;
-use Models\Item;
+use Models\{Project, Item};
 use Ramsey\Uuid\Uuid;
 
 class ItemController extends Controller
@@ -71,7 +70,3 @@ class ItemController extends Controller
         }
     }
 }
-
-// index, create, store, show, edit, update
-
-// ToDo: "validation"

@@ -3,10 +3,10 @@
     <div>ID: <?php echo $project->id; ?></div>
     <div>Name: <?php echo $project->name; ?></div>
     <div class="items-container">
-    <?php foreach(($project->items() ?? []) as $item): ?>
+    <?php foreach(($items ?? []) as $item): ?>
         <div class="item item-<?= $item->type ?>" id="item_<?= $item->id ?>">
             <span><?= $item->id ?></span>
-            <form action="?acrion=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
+            <form action="?action=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
                 <label for="name">Name/Title</label>
                 <input type="text" name="name" placeholder="Auth Issue" value="<?= $item->name ?>">
 
@@ -14,7 +14,7 @@
                 <span><?= $item->type ?></span>
                 <select name="type">
                     <?php foreach(['issue', 'todo', 'idea', 'other'] as $option): ?>
-                        <option value="<?= $option ?>"><?= ucfirst($option) ?></option> <!-- ToDo: set the "current one" to active -->
+                        <option value="<?= $option ?>" <?= $item->type === $option ? 'selected' : '' ?>><?= ucfirst($option) ?></option>
                     <?php endforeach ?>
                 </select>
 
@@ -33,7 +33,6 @@
     <?php endforeach ?>
     </div>
 
-    <!-- <form action="?acrion=create&object=item&pid=" -->
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
     <form action="?acrion=store&object=item&id=<?= $project->id ?>" method="post" id="itemCreationForm">
         <label for="name">Name/Title</label>
