@@ -11,6 +11,7 @@ class Item extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $keyName = 'id';
 
     public $timestamps = true; 
 

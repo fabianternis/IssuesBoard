@@ -1,5 +1,8 @@
 <?php
 
+use Ramsey\Uuid\Uuid;
+
+
 if (!function_exists('dotenv')) {
     function dotenv(string $key, $default = null) {
         $value = getenv($key);
@@ -134,4 +137,8 @@ function echoForm(string $action, array $inputs, ?string $id = null, string $met
     $form .= '</form>';
 
     echo $form;
+}
+
+function createUuid() {
+    return (string) Uuid::uuid4();
 }

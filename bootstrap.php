@@ -8,8 +8,7 @@ require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/helpers.php';
 require_once __DIR__ . '/src/database.php';
 
-use Models\User;
-use Models\Project;
+use Models\{User, Project, Item};
 
 if(isset($_SESSION['user_id'])) {
 $user = User::where('id', $_SESSION['user_id'])->get();
@@ -171,6 +170,17 @@ if ($http_code == 404) {
     $view_name = 'error';
 }
 
+// if (isset($project)) {
+//     Item::create([
+//         'id' => createUuid(),
+//         'project_id' => $project->id,
+//         'name'        => 'Debug Item Name',
+//         'description' => 'debug description',
+//         'type'        => 'idea',
+//     ]);
+// }
+
+// die($http_code . $view_name . $error_message);
 
 // $content = include __DIR__ . '/src/views/index.php';
 if ((isset($_GET['debug']) && $_GET['debug'] === 'hard') || (isset($_GET['debug_view']) && $_GET['debug_view'] == 1)) {

@@ -113,7 +113,7 @@ class ProjectController extends Controller
         
         $project = Project::where('id', $_GET['id'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
         // $items = $project->items();
-        $items = Item::where('project_id', $project->id)->get();
+        $items = Item::where('project_id', $project->id)->get(); // WTF 
 
         if (!isset($project)) {
             $http_code = 404;
