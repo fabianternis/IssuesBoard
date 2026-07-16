@@ -10,9 +10,10 @@ class ItemController extends Controller
 
     public function store($id) 
     {        
+        global $target_uri;
         $project = Project::where('id', $id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
         
-        die('reached function'); // it did not
+        // die('reached function'); // it did not – now it did(just didnt due to this ONE CHARACTER)
 
         $item = Item::create([
             'id' => (string) Uuid::uuid4(),
@@ -23,6 +24,8 @@ class ItemController extends Controller
             'external_url' => $_POST['external_url'] ?? null,
             //'state' /* maybe "Advanced" options ...*/
         ]);
+
+         $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
     }
     public function update($id)
     {

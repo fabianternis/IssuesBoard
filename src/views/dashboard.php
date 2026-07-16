@@ -16,3 +16,5 @@
     you seem to have no Projects.
     <a href="?action=create&object=project">Create one</a>
 <?php endif ?>
+
+<a href="?action=create&object=project">Create new Project</a>
