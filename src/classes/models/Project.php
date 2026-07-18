@@ -29,6 +29,6 @@ class Project extends Model
 
     public function items()
     {
-        return $this->hasMany(Item::class, 'project_id');
+        return $this->hasMany(Item::class, 'project_id')->orderBy('order_index');
     }
 }

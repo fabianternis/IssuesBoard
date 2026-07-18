@@ -23,6 +23,7 @@ class ItemController extends Controller
             'description' => $_POST['description'] ?? null,
             'external_url' => $_POST['external_url'] ?? null,
             //'state' /* maybe "Advanced" options ...*/
+            'order_index'  => $_POST['order_index'] ?? 0,
         ]);
 
          $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
@@ -47,6 +48,7 @@ class ItemController extends Controller
                 'type' => $_POST['type'] ?? $project->type,
                 'state' => $_POST['state'] ?? $project->state,
                 'external_url' => $_POST['external_url'] ?? $project->external_url,
+                'order_index' => $_POST['order_index'] ?? 0,
             ]);
 
             $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;

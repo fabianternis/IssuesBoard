@@ -16,6 +16,7 @@ body {
         margin-inline: 2em;
         padding-top: 5vh;
         flex-grow: 1;
+        /* width: 100vw; */
 
         &:has(.board) {
             margin-inline: 0;
@@ -61,6 +62,7 @@ footer {
     flex-direction: row;  /* ... */
     gap: 1rem;
     align-items: flex-start;
+    padding-inline: 18px;
     /* padding: 1rem 0; */
     overflow-x: auto;
 
@@ -91,15 +93,15 @@ footer {
 
         &.column-idea {
             --bg: #ffe500;
-            --bd: #b2a000;
-        }
-        &.column-todo {
-            --bg: #abcfff;
-            --bd: #7d97b9;
+            --bd: #d0bb00;
         }
         &.column-issue {
             --bg: #ff51a0;
             --bd: #af366c;
+        }
+        &.column-todo {
+            --bg: #abcfff;
+            --bd: #7d97b9;
         }
         &.column-other {
             --bg: #bbb;
@@ -114,12 +116,20 @@ footer {
             .item {
                 border-radius: 8px;
                 background-color: #ffffff; 
-                border: 2px solid var(--bd);
+                border: 3px solid var(--bd);
                 padding: .75rem;
                 transition: border-style .2s ease;
 
                 &:hover {
                     border-style: dashed;
+                }
+
+                &.state-new {
+                    /*color: red; /* test ... */
+
+                    --state-var: #fafb;
+                    border-color: red;
+                    /* border-width: 3px; */
                 }
 
                 form {
@@ -174,6 +184,7 @@ footer {
                         
                         &:hover {
                             opacity: .85;
+                            color: #000000;
                         }
                     }
                 }

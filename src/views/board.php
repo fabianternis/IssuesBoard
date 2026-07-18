@@ -42,7 +42,7 @@
 
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
-                        <div class="item item-<?= $item->type ?>" id="item_<?= $item->id ?>">
+                        <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>">
                             <form action="?action=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
                                 <span>ID: <?= $item->id ?></span>
                                 
@@ -64,6 +64,9 @@
 
                                 <label for="url_<?= $item->id ?>">Link</label>
                                 <input type="url" id="url_<?= $item->id ?>" name="external_url" placeholder="http://to.your/github/issue" value="<?= htmlspecialchars($item->external_url ?? '') ?>">
+
+                                <label for="order_index_<?= $item->id ?>">Index</label>
+                                <input type="number" name="order_index" id="order_index_<?= $item->id ?>" value="<?= htmlspecialchars($item->order_index ?? 0) ?>">
 
                                 <input type="submit" value="Update Item">
                             </form>
@@ -107,7 +110,7 @@
 
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
     <form action="?action=store&object=item&id=<?= $project->id ?>" method="post" id="itemCreationForm">
-        <!-- NO F-ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
+        <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
         <input type="text" name="name" placeholder="Auth Issue">
 
@@ -123,6 +126,9 @@
 
         <label for="external_url">Link</label>
         <input type="url" name="external_url" placeholder="http://to.your/github/issue">
+
+        <label for="order_index">Index</label>
+        <input type="number" name="order_index">
 
         <input type="submit" value="Add Item">
     </form>

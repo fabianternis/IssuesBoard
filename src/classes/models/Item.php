@@ -22,8 +22,9 @@ class Item extends Model
         'description', 
         'type',
         'state',
-        'external_url'
+        'external_url',
         // 'image_url'
+        'order_index',
     ];
     protected static function boot()
     {
