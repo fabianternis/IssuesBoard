@@ -1,11 +1,14 @@
 <?php if($object == 'project' && isset($project)): ?>
     
-    <div>ID: <?php echo $project->id; ?></div>
-    <div>Name: <?php echo $project->name; ?></div>
+    <div>Project ID: <?php echo $project->id; ?></div>
+    <div>Project Name: <?php echo $project->name; ?></div>
+
+    <div id="time-container" class="none">Time until auto-save: <span id="time-display"></span></div>
+
     <div class="items-container">
     
     <!-- <?= $project->items->count().' Items' ?> -->
-    
+
     <!-- <?php foreach($project->items as $item): ?>
         <?= $item->name ?>
     <?php endforeach ?> -->
@@ -38,11 +41,11 @@
                     <?= $type ?> (<?= count($groupedItems[$type]) ?>)
                 </h3>
                 
-    <!-- ToDo: Styles (some classes set already) -->
+                <!-- ToDo: Styles (some classes set already) -->
 
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
-                        <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>">
+                        <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true">
                             <form action="?action=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
                                 <span>ID: <?= $item->id ?></span>
                                 
@@ -112,7 +115,7 @@
     <form action="?action=store&object=item&id=<?= $project->id ?>" method="post" id="itemCreationForm">
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
-        <input type="text" name="name" placeholder="Auth Issue">
+        <input type="text" name="name" placeholder="Auth Issue" required>
 
         <label for="type">Type</label>
         <select name="type">
@@ -128,10 +131,10 @@
         <input type="url" name="external_url" placeholder="http://to.your/github/issue">
 
         <label for="order_index">Index</label>
-        <input type="number" name="order_index">
+        <input type="number" name="order_index" value="0" required>
 
         <input type="submit" value="Add Item">
     </form>
 <?php endif ?>
 
-<script src="board.js">
+<script src="board.js"></script>

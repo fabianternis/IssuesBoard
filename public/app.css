@@ -65,6 +65,9 @@ footer {
     padding-inline: 18px;
     /* padding: 1rem 0; */
     overflow-x: auto;
+    /* min-width: 1200px; */
+
+    overflow: scroll;
 
     .board-column {
         --bg: #f3f3f3;
@@ -112,6 +115,13 @@ footer {
             display: flex;
             flex-direction: column;
             gap: .75rem;
+            /* overflow: scroll; */
+
+            transition: background-color 0.2s ease;
+
+            &.drag-over-active {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
 
             .item {
                 border-radius: 8px;
@@ -188,7 +198,36 @@ footer {
                         }
                     }
                 }
+
+                cursor: grab;
+                &:active {
+                    cursor: grabbing;
+                }
+
+                .item.dragging {
+                    opacity: 0.5;
+                    background-color: #f0f0f0;
+                    cursor: grab; /* just fallback .. */
+                }
             }
         }
     }
 }
+    #time-container {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #af366c;
+        margin-bottom: 1rem;
+        /* margin-inline-start: 20%; */
+        padding: 0.5rem;
+        /* padding-inline: 5rem; */
+        border: 2px solid #af366c;
+        border-radius: 8px;
+        width: fit-content;
+        text-align: center;
+        
+        &.none {
+            /* display: none; */
+            visibility: hidden;
+        }
+    }

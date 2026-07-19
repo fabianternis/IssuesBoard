@@ -109,24 +109,33 @@ class ProjectController extends Controller
 
     public function show(string $id): void
     {
-        global $http_code, $error_message, $view_name, $project, $items;
-        
-        $project = Project::where('id', $_GET['id'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
-        // $items = $project->items();
-        $items = Item::where('project_id', $project->id)->get(); // WTF 
+        global $http_code, $error_message, $view_name, $project, $items, $target_uri;
 
-        if (!isset($project)) {
-            $http_code = 404;
-            $error_message = 'Project could not be found';
-        } elseif (!Auth()->can($project, 'show')) {
-            // can() gets overwritten
-            $error_message = 'You have no permission to access this Project';
+        // ToDo: Add "support" for wrong auth-user ...
+
+        // if(!isset($_SESSION['user_id'])) {
+        if(!Auth()->check()) {
             $http_code = 403;
+            // $error_message = 'You seem not to be logged-in';
+            $target_uri = '/auth';
         } else {
-            // var_dump($project);
-            // die('test');
-            // die($project);
-            $view_name = 'board';
+            $project = Project::where('id', $_GET['id'])->where('user_id', $_SESSION['user_id'])->firstOrFail();
+            // $items = $project->items();
+            $items = Item::where('project_id', $project->id)->get(); // WTF 
+    
+            if (!isset($project)) {
+                $http_code = 404;
+                $error_message = 'Project could not be found';
+            } elseif (!Auth()->can($project, 'show')) {
+                // can() gets overwritten
+                $error_message = 'You have no permission to access this Project';
+                $http_code = 403;
+            } else {
+                // var_dump($project);
+                // die('test');
+                // die($project);
+                $view_name = 'board';
+            }
         }
     }
 
