@@ -232,3 +232,9 @@ footer {
         visibility: hidden;
     }
 }
+
+
+
+.display-none {
+    display: none !important;
+}

@@ -1,5 +1,5 @@
 <?php if($object == 'project' && isset($project)): ?>
-    
+    <div id="board-data" data-project-id="<?= $project->id ?>" class="display-none"></div>
     <div>Project ID: <?php echo $project->id; ?></div>
     <div>Project Name: <?php echo $project->name; ?></div>
 
@@ -37,41 +37,37 @@
     <div class="board">
         <?php foreach ($types as $type): ?>
             <div class="board-column column-<?= $type ?>">
-                <h3>
-                    <?= $type ?> (<?= count($groupedItems[$type]) ?>)
-                </h3>
+                <h3> <?= $type ?> (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?></h3>
                 
-                <!-- ToDo: Styles (some classes set already) -->
+                <!-- ToDo: Styles (some classes set already)  - Still same ToDo ... (bit of progress) -->
 
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
-                        <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true">
+                        <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
                             <form action="?action=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
-                                <span>ID: <?= $item->id ?></span>
+                                <span class="id">ID: <?= $item->id ?></span>
                                 
                                 <label for="name_<?= $item->id ?>"></label>
-                                <input type="text" id="name_<?= $item->id ?>" name="name" placeholder="Auth Issue" value="<?= htmlspecialchars($item->name) ?>">
+                                <input class="item-inpt" type="text" id="name_<?= $item->id ?>" name="name" placeholder="Auth Issue" value="<?= htmlspecialchars($item->name) ?>">
 
                                 <label for="type_<?= $item->id ?>">Type</label>
-                                <select id="type_<?= $item->id ?>" name="type">
+                                <select class="item-inpt" id="type_<?= $item->id ?>" name="type">
                                     <?php foreach ($types as $option): ?>
                                         <option value="<?= $option ?>" <?= $item->type === $option ? 'selected' : '' ?>><?= ucfirst($option) ?></option>
                                     <?php endforeach ?>
                                 </select>
 
                                 <label for="description_<?= $item->id ?>">Description</label>
-                                <textarea id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
+                                <textarea class="item-inpt" id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
 
                                 <label for="state_<?= $item->id ?>">State</label>
-                                <input type="text" id="state_<?= $item->id ?>" name="state" placeholder="In Work" value="<?= htmlspecialchars($item->state ?? '') ?>">
+                                <input class="item-inpt" type="text" id="state_<?= $item->id ?>" name="state" placeholder="In Work" value="<?= htmlspecialchars($item->state ?? '') ?>">
 
                                 <label for="url_<?= $item->id ?>">Link</label>
-                                <input type="url" id="url_<?= $item->id ?>" name="external_url" placeholder="http://to.your/github/issue" value="<?= htmlspecialchars($item->external_url ?? '') ?>">
+                                <input class="item-inpt" type="url" id="url_<?= $item->id ?>" name="external_url" placeholder="http://to.your/github/issue" value="<?= htmlspecialchars($item->external_url ?? '') ?>">
 
                                 <label for="order_index_<?= $item->id ?>">Index</label>
-                                <input type="number" name="order_index" id="order_index_<?= $item->id ?>" value="<?= htmlspecialchars($item->order_index ?? 0) ?>">
-
-                                <input type="submit" value="Update Item">
+                                <input class="item-inpt" type="number" name="order_index" id="order_index_<?= $item->id ?>" value="<?= htmlspecialchars($item->order_index ?? 0) ?>">
                             </form>
                         </div>
                     <?php endforeach ?>

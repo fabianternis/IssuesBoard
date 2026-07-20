@@ -156,8 +156,69 @@ class ProjectController extends Controller
             $target_uri = '/dashboard';
         }
     }
+
+    public function batchUpdate($id)
+    {
+        global $http_code, $error_message, $other;
+        if(!Auth()->check()) {
+            $http_code = 403;
+            $error_message = 'YOu need to be authenticated for thjsi ...';
+            exit;
+        } else {
+            $project = Project::where('id', $id)->where('user_id', Auth()->id())->firstOrFail();
+            if(!$project) {
+                $http_code = 404;
+                // $error_message = 'No Project';
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Ownership verification failed.']);
+                exit;
+            } else {
+                $json = file_get_contents('php://input');
+                $payload = json_decode($json, true);
+
+                if (!$payload /*|| !isset($payload['project_id'])*/ || !isset($payload['items'])) {
+                    $http_code = 400;
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Malformed payload structure.']);
+                    exit;
+                }
+
+                // $projectId = $payload['pro']
+
+                foreach ($payload['items'] as $itemData) {
+                    if (!isset($itemData['id'])) continue;
+
+                    $item = Item::where('id', $itemData['id'])->where('project_id', $project->id)->firstOrFail();
+                    
+                    if ($item) {
+                        $item->update([
+                            'name'         => $itemData['name'] ?? $item->name,
+                            'description'  => $itemData['description'] ?? $item->description,
+                            'type'         => $itemData['type'] ?? $item->type,
+                            'state'        => $itemData['state'] ?? $item->state,
+                            'external_url' => $itemData['external_url'] ?? $item->external_url,
+                            'order_index'  => $itemData['order_index'] ?? ($item->order_index ?? 0),
+                        ]);
+                    } else {
+                        // may not do anything ...
+                    }
+                }
+
+                $http_code = 200;
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 'success', 'message' => 'Board synchronized.']);
+                exit;
+            }
+    
+        }
+
+
+
+    }
 }
 
 // index, create, store, show, edit, update
 
 // ToDo: "validation"
+
+// ToDo: $content_type or $header[$header-name_string]

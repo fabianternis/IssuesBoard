@@ -3,21 +3,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropzones = document.querySelectorAll('.column-items');
     const timerContainer = document.getElementById('time-container');
     const timerDisplay = document.getElementById('time-display');
-    
+    const boardData = document.getElementById('board-data');
+    const projectId = boardData ? boardData.dataset.projectId : null;
+
     let countdownInterval = null;
 
     items.forEach(item => {
         item.addEventListener('dragstart', handleDragStart);
         item.addEventListener('dragend', handleDragEnd);
 
-        const form = item.querySelector('form');
-        if (form) {
-            form.addEventListener('input', (e) => {
-                if (e.target.type !== 'submit') {
-                    executeCountdownAndSubmit(form);
-                }
-            });
-        }
+        item.querySelectorAll('.item-inpt').forEach(input => {
+            input.addEventListener('input', scheduleBatchSave);
+        });
     });
 
     dropzones.forEach(zone => {
@@ -77,15 +74,64 @@ document.addEventListener('DOMContentLoaded', () => {
             draggedElement.className = draggedElement.className.replace(/item-\w+/, `item-${newType}`);
         }
 
-        executeCountdownAndSubmit(draggedElement);
+        const updatedItems = dropzone.querySelectorAll('.item');
+        updatedItems.forEach((el, index) => {
+            const indexInput = el.querySelector('input[name="order_index"]');
+            if (indexInput) indexInput.value = index;
+        });
+
+        scheduleBatchSave();
     }
 
-    function executeCountdownAndSubmit(targetElement) {
+//     function executeCountdownAndSubmit(targetElement) {
+//         if (countdownInterval) {
+//             clearInterval(countdownInterval);
+//         }
+
+//         let timeLeft = 5;
+
+//         if (timerContainer && timerDisplay) {
+//             timerContainer.classList.remove('none');
+//             // timerDisplay.innerHTML = "Time Left: "+timeLeft;
+//             timerDisplay.textContent = timeLeft;
+//         }
+
+//         countdownInterval = setInterval(() => {
+//             timeLeft -= 1;
+            
+//             if (timerDisplay) {
+//                 timerDisplay.textContent = timeLeft;
+//             }
+
+//             if (timeLeft <= 0) {
+//                 clearInterval(countdownInterval);
+                
+//                 if (timerDisplay) {
+//                     timerDisplay.parentElement.classList.add('none');
+//                 }
+
+//                 const formNode = targetElement.tagName === 'FORM' ? targetElement : targetElement.querySelector('form') || targetElement.closest('form');
+
+//                 if (formNode) {
+//                     formNode.submit();
+//                 } else {
+//                     console.error('Target resolution failed: No <form> element located in relation to the dropped node.');
+//                 }
+//             }
+//         }, 1000);
+//     }
+
+    function scheduleBatchSave() {
+        if (!projectId) {
+            console.error('Project ID missing ... (whyever / however this could have happened (should not be possible with the current state of teh PHP) ...')
+            return;
+        }
+
         if (countdownInterval) {
             clearInterval(countdownInterval);
         }
 
-        let timeLeft = 5;
+        let timeLeft = 3; // bc. Why not
 
         if (timerContainer && timerDisplay) {
             timerContainer.classList.remove('none');
@@ -95,26 +141,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
         countdownInterval = setInterval(() => {
             timeLeft -= 1;
-            
+
             if (timerDisplay) {
                 timerDisplay.textContent = timeLeft;
             }
 
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
-                
-                if (timerDisplay) {
-                    timerDisplay.parentElement.classList.add('none');
+
+                if (timerContainer) {
+                    timerContainer.classList.add('none');
                 }
 
-                const formNode = targetElement.tagName === 'FORM' ? targetElement : targetElement.querySelector('form') || targetElement.closest('form');
-
-                if (formNode) {
-                    formNode.submit();
-                } else {
-                    console.error('Target resolution failed: No <form> element located in relation to the dropped node.');
-                }
+                executeBatchSave();
             }
         }, 1000);
     }
+
+    function executeBatchSave() {
+        const itemNodes = document.querySelectorAll('.item');
+        const payload = {
+            // project_id: projectId,
+            items: []
+        };
+
+        itemNodes.forEach(node => {
+            const itemId = node.dataset.itemId;
+            if (!itemId) return;
+
+            const itemData = { id: itemId };
+            node.querySelectorAll('.item-inpt').forEach(input => { itemData[input.name] = input.value; });
+
+            payload.items.push(itemData);
+        })
+
+        fetch('?action=batchUpdate&object=project&id=' + projectId , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(response => {
+            if (!response.ok) console.error('Response on BatchUpdate was not ok');
+            return response.json();
+        }).then(data => {
+            console.log('Board Sync successful ...');
+        }).then(error => {
+            console.error('Board Sync Error:' + error);
+        });
+    }
 });
+
+// ToDO: btn taht onclich saves batch .. (eventListener ...)
+// ToDo: "auto order_index change" (dragging ...)
