@@ -30,3 +30,17 @@ Action defines what happens and Object defines how teh "structure" (e.g. form) i
 ---
 action=new: show creation form
 action=create: create the Object (in DB)
+
+
+
+# Actual Content
+
+
+
+
+
+
+## "Board" (main nterface)
+- columns for each "type"(currently: Issute/Idea/ToDo/Other) that are colore
+- items (forms inside columns that are draggable – auto-save after 5s of nothing happenig after change ...)
+... other stuff ...

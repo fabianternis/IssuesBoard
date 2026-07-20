@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     items.forEach(item => {
         item.addEventListener('dragstart', handleDragStart);
         item.addEventListener('dragend', handleDragEnd);
+
+        const form = item.querySelector('form');
+        if (form) {
+            form.addEventListener('input', (e) => {
+                if (e.target.type !== 'submit') {
+                    executeCountdownAndSubmit(form);
+                }
+            });
+        }
     });
 
     dropzones.forEach(zone => {
@@ -95,12 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(countdownInterval);
                 
                 if (timerDisplay) {
-                    timerDisplay.classList.add('none');
+                    timerDisplay.parentElement.classList.add('none');
                 }
 
-                const formNode = targetElement.tagName === 'FORM' 
-                    ? targetElement 
-                    : targetElement.querySelector('form') || targetElement.closest('form');
+                const formNode = targetElement.tagName === 'FORM' ? targetElement : targetElement.querySelector('form') || targetElement.closest('form');
 
                 if (formNode) {
                     formNode.submit();
