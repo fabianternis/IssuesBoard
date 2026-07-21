@@ -117,7 +117,11 @@ footer {
             gap: .75rem;
             /* overflow: scroll; */
 
+            min-height: 50dvh;
+            min-width: 100%;
             transition: background-color 0.2s ease;
+
+            /*overflow: scroll; /* or hidden ... ? */
 
             &.drag-over-active {
                 background-color: rgba(0, 0, 0, 0.05);

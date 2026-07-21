@@ -1,7 +1,33 @@
 <?php if($object == 'project' && isset($project)): ?>
     <div id="board-data" data-project-id="<?= $project->id ?>" class="display-none"></div>
-    <div>Project ID: <?php echo $project->id; ?></div>
-    <div>Project Name: <?php echo $project->name; ?></div>
+    <div class="project-info">
+        <ul class="info-list">
+            <li><strong>Project ID:</strong> <?= htmlspecialchars($project->id) ?></li>
+            <li><strong>Name:</strong> <?= htmlspecialchars($project->name) ?></li>
+            <li>
+                <strong>Description:</strong> 
+                <?= htmlspecialchars($project->description ?? 'No description provided.') ?>
+            </li>
+            <li>
+                <strong>Repo URL:</strong> 
+                <?php if(!empty($project->repo_url)): ?>
+                    <a href="<?= htmlspecialchars($project->repo_url) ?>" target="_blank"><?= htmlspecialchars($project->repo_url) ?></a>
+                <?php else: ?>
+                    N/A
+                <?php endif; ?>
+            </li>
+        </ul>
+        
+        <a href="?action=edit&object=project&id=<?= urlencode($project->id) ?>" class="btn btn-edit">
+            <button type="button">Edit Project</button>
+        </a>
+
+        <form action="?action=addUser&object=project&id=<?= urlencode($project->id) ?>" class="add-user-form" method="post">
+            <label for="user">Username/user_id</label>
+            <input type="text" name="user" placeholder="012345678-9ab1-2345-6789-10cdefghi1kl">
+        </form>
+    </div>
+
 
     <div id="time-container" class="none">Time until auto-save: <span id="time-display"></span></div>
 
@@ -37,10 +63,9 @@
     <div class="board">
         <?php foreach ($types as $type): ?>
             <div class="board-column column-<?= $type ?>">
-                <h3> <?= $type ?> (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?></h3>
+                <h3> <?= $type ?> <!-- (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?> --></h3>
                 
                 <!-- ToDo: Styles (some classes set already)  - Still same ToDo ... (bit of progress) -->
-
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
                         <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
@@ -71,6 +96,7 @@
                             </form>
                         </div>
                     <?php endforeach ?>
+                    <!-- giving it more spaaaaace ... -->
                 </div>
             </div>
         <?php endforeach ?>

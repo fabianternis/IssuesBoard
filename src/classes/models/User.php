@@ -3,17 +3,14 @@
 namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class User extends Model 
 {
     protected $table = 'users';
-
     public $incrementing = false;
-    
     protected $keyType = 'string';
-
     protected $fillable = ['id', 'username', 'email', 'password'];
-
     public $timestamps = false; 
 
     protected static function boot()
@@ -27,14 +24,18 @@ class User extends Model
         });
     }
 
-    function projects() {
-        // return Project::where('user_id', $this->id);
+    public function ownedProjects() 
+    {
         return $this->hasMany(Project::class, 'user_id', 'id');
     }
 
-    function hasProjects(): bool
+    public function projects() 
     {
-        // return (count($this->projects()) > 0);
-        return $this->projects()->exists();
+        return $this->belongsToMany(Project::class, 'project_users', 'user_id', 'project_id');
+    }
+
+    public function hasProjects(): bool
+    {
+        return $this->projects()->exists() || $this->ownedProjects()->exists();
     }
 }
