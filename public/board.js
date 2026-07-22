@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('time-display');
     const boardData = document.getElementById('board-data');
     const projectId = boardData ? boardData.dataset.projectId : null;
+    const saveButton = document.getElementById('button-save');
 
     let countdownInterval = null;
 
@@ -158,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    function executeBatchSave() {
+    function executeBatchSave(e) {
+        e.preventDefault(); // is that needed here ?? – will check taht soon (or never)
         const itemNodes = document.querySelectorAll('.item');
         const payload = {
             // project_id: projectId,
@@ -191,7 +193,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Board Sync Error:' + error);
         });
     }
+
+    saveButton.addEventListener('click', executeBatchSave);
 });
 
-// ToDO: btn taht onclich saves batch .. (eventListener ...)
+
+
+// DONE: btn that onClick saves batch .. (eventListener ...)
 // ToDo: "auto order_index change" (dragging ...)
+// ToDo: Add the "type-{$type}"-class also via JS instead of php...
+// ToDo: just send the diff, to allow simultamiou(or however it is written) edits
+// ToDo: CMD+S-listener to direct save (like the "save button" ...)

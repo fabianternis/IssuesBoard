@@ -10,10 +10,18 @@ class ItemController extends Controller
 
     public function store($id) 
     {        
-        global $target_uri;
-        $project = Project::where('id', $id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
+        global $target_uri, $http_code, $error_message;
+        $user = Auth()->user();
+        $project = Project::where('id', $id)->firstOrFail();
         
-        // die('reached function'); // it did not – now it did(just didnt due to this ONE CHARACTER)
+        if (!($user->ownedProjects->contains($project) || $user->projects->contains($project))) {
+            $http_code = 404;
+            $error_message = 'No project with this ID found that you have access to.';
+            exit;
+        }
+
+        
+        // die('reached function'); // it did not – now it did(just didnt due to taht ONE CHARACTER)
 
         $item = Item::create([
             'id' => (string) Uuid::uuid4(),
@@ -29,6 +37,7 @@ class ItemController extends Controller
          $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
     }
     public function update($id)
+    // currently not in use bc. batchUpdate() on ProjectController ...
     {
         global $http_code, $error_message, $target_uri;
         

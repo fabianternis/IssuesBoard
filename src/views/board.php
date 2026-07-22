@@ -19,7 +19,7 @@
         </ul>
         
         <a href="?action=edit&object=project&id=<?= urlencode($project->id) ?>" class="btn btn-edit">
-            <button type="button">Edit Project</button>
+            <button type="button">Edit Project details</button>
         </a>
 
         <form action="?action=addUser&object=project&id=<?= urlencode($project->id) ?>" class="add-user-form" method="post">
@@ -160,3 +160,5 @@
 <?php endif ?>
 
 <script src="board.js"></script>
+
+<button id="button-save">Save Changes <span class="now">NOW</span></button>

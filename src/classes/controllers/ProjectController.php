@@ -51,7 +51,7 @@ class ProjectController extends Controller
     {
         global $http_code, $error_message;
         
-        $target_action = '/dashboard?action=update&object=project&id='.$id;
+        $target_action = '/board?action=update&object=project&id='.$id;
         $project = Project::find($id);
 
         if (!$project) {
@@ -155,6 +155,7 @@ class ProjectController extends Controller
     {
         global $http_code, $error_message, $target_uri;
         
+
         $project = Project::where('id', $id)->firstOrFail();
 
         if (!isset($project)) {
@@ -177,10 +178,11 @@ class ProjectController extends Controller
             $error_message = 'YOu need to be authenticated for thjsi ...';
             exit;
         } else {
-            $project = Project::where('id', $id)->where('user_id', Auth()->id())->firstOrFail();
-            if(!$project) {
+            $user = Auth()->user();
+            $project = Project::where('id', $id)->firstOrFail();
+            
+            if (!($user->ownedProjects->contains($project) || $user->projects->contains($project))) {
                 $http_code = 404;
-                // $error_message = 'No Project';
                 header('Content-Type: application/json');
                 echo json_encode(['error' => 'Ownership verification failed.']);
                 exit;
