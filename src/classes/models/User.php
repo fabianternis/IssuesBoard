@@ -10,7 +10,7 @@ class User extends Model
     protected $table = 'users';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'username', 'email', 'password'];
+    protected $fillable = ['id', 'username', 'email', 'password', 'github_id', 'github_email', 'github_token', 'github_refresh_token', 'hackclub_id', 'hackclub_email', 'hackclub_token', 'hackclub_refresh_token'];
     public $timestamps = false; 
 
     protected static function boot()

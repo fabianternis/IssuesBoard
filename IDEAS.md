@@ -15,3 +15,13 @@
 - "Schema Link" ([SchemaBuilder](https://schemabuilder.dino.icu))
 - clean-up some php-functionality (e.g. the switch-statements in bootstrap.php)
 - generateForm() should be executed AFTER the head-view is included ...
+- deleted_at (user, project, item, ...)
+- deleted_by / item_deletes-table / ...
+- audit ?
+- emailing 
+- password reset ...
+- toasts (showToast() to Js ...)
+- add array: "toasts" to SESSION with "closed_at, shown_at, max_duration, ...
+- frontend validation + genral validation
+- link branch/commit to item (Also GitHub-api and GitLab-api and co. ...)
+- if only OAuth: first oauth-email willl be set as user-email. if multiple auth-accounts: User can select in setiing ... On OAUth login/registeer: first checks "provider_email" and afterwards also "email".
