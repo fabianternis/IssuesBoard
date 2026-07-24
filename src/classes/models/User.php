@@ -3,14 +3,14 @@
 namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Support\{Str, Carbon};
 
 class User extends Model 
 {
     protected $table = 'users';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'username', 'email', 'password', 'github_id', 'github_email', 'github_token', 'github_refresh_token', 'hackclub_id', 'hackclub_email', 'hackclub_token', 'hackclub_refresh_token'];
+    protected $fillable = ['id', 'username', 'email', 'password', 'github_id', 'github_email', 'github_token', 'github_refresh_token', 'hackclub_id', 'hackclub_email', 'hackclub_token', 'hackclub_refresh_token', 'deleted_at'];
     public $timestamps = false; 
 
     protected static function boot()
@@ -23,6 +23,10 @@ class User extends Model
             }
         });
     }
+
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
 
     public function ownedProjects() 
     {
@@ -37,5 +41,50 @@ class User extends Model
     public function hasProjects(): bool
     {
         return $this->projects()->exists() || $this->ownedProjects()->exists();
+    }
+    
+    public function isDeleted(): bool
+    {
+        return !is_null($this->deleted_at) && Carbon::parse($this->deleted_at)->isPast();
+    }
+
+    public function delete_soft()
+    {
+        if(!$this->isDeleted()) {
+            $this->deleted_at = $this->freshTimestamp()->addDays(28);
+            return $this->save();
+        }
+    }
+
+    public function delete()
+    {
+        return $this->delete_soft();
+    }
+
+    public function is_deleted(): bool
+    {
+        return $this->isDeleted();
+    }
+
+    public function get_deletion_status(): string
+    {
+        if (is_null($this->deleted_at)) {
+            return 'open';
+        } elseif(!is_null($this->deleted_at) && Carbon::parse($this->deleted_at)->isPast()) {
+            // return 'fulfilled';
+            return 'deleted';
+        } else {
+            return 'pending';
+        }
+    }
+
+    public function recover()
+    {
+        if($this->is_deleted()) {
+            $this->deleted_at = null;
+            return $this->save();
+        } else {
+            return false;
+        }
     }
 }

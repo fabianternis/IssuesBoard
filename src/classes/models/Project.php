@@ -10,7 +10,7 @@ class Project extends Model
     protected $table = 'projects';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'user_id', 'name', 'description', 'repo_url'];
+    protected $fillable = ['id', 'user_id', 'name', 'description', 'repo_url', 'deleted_at'];
     public $timestamps = false; 
 
     protected static function boot()
@@ -42,5 +42,28 @@ class Project extends Model
     public function user()
     {
         return $this->owner();
+    }
+
+    public function isDeleted(): bool
+    {
+        return !is_null($this->deleted_at);
+    }
+
+    public function is_deleted(): bool
+    {
+        return $this->isDeleted();
+    }
+
+    public function soft_delete()
+    {
+        if(!$this->isDeleted()) {
+            $this->deleted_at = $this->freshTimestamp();
+            return $this->save();
+        }
+    }
+
+    public function delete()
+    {
+        return $this->soft_delete();
     }
 }
