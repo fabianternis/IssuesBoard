@@ -142,3 +142,15 @@ function echoForm(string $action, array $inputs, ?string $id = null, string $met
 function createUuid() {
     return (string) Uuid::uuid4();
 }
+
+function create_url_with_attributes(array $attributes, ?string $uri = '') {
+    
+    if (empty($attributes)) {
+        return (string) $uri;
+    }
+
+    $attributes_string = http_build_query($attributes);
+    $separator = str_contains((string) $uri, '?') ? '&' : '?';
+
+    return $uri . $separator . $attributes_string;
+}

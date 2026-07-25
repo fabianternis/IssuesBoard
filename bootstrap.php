@@ -36,6 +36,7 @@ $http_code = 404;
 $http_code_force = false;
 $error_message = null;
 $target_uri = $uri;
+
 function Auth() {
     global $auth;
     return $auth;
@@ -158,6 +159,11 @@ if(!isset($view_name)) {
 // if(!($uri == '/' && $target_uri == '/')) {
 //     header('Location: '.$target_uri);
 // }
+
+
+// TESTING + WIP ...
+// $target_uri = create_url_with_attributes(['error' => $erro_message, 'code' => $http_code], $target_uri);
+
 if ($target_uri !== $uri) {
     $redirect_code = ($http_code_force || isset($error_message)) ? $http_code : (($http_code === 404) ? 302 : $http_code);
     // http_response_code($redirect_code);
@@ -213,5 +219,5 @@ echo(isset($user));
 
 
 <?php if($auth->check()): ?>
-<a href="?action=logout">Log out</a>
+    <a href="<?= create_url_with_attributes(['action' => 'logout']) ?>">Log out</a>
 <?php endif ?>

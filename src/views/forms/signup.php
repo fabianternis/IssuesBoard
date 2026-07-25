@@ -1,4 +1,4 @@
-<form action="?action=signup" method="post">
+<form action="<?= create_url_with_attributes(['action' => 'signup']) ?>" method="post">
     <input type="email" name="email" placeholder="you@domain.tld">
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">

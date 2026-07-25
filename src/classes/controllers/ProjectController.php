@@ -252,13 +252,40 @@ class ProjectController extends Controller
 
 
         if ($new_user->id === $project->user_id) {
-            $error_message = 'The project owner cannot be added as a secondary collaborator.';
+            $error_message = 'You may not add yourself to your own Project ... xD';
             $http_code = 400; // ??? what exact code ??
         }
 
         $project->users()->syncWithoutDetaching([$new_user->id]);
 
-        $target_uri = '/board?action=show&object=project&id=' . $project->id;
+        $target_uri = create_url_with_attribute(['action' => 'show', 'object' => 'project', 'if' => $project->id],'board');
+    }
+
+    public function removeUser($id) {
+
+        global $error_message, $target_uri, $http_code;
+
+
+        $user = User::where('id', $_GET['uid'])->firstOrFail();
+
+        $project = Project::where('id', $id)->where('user_id', Auth()->id())->firstOrFail();
+
+        if (!isset($user)) {
+            $error_mesaage = 'No valid user defined';
+            $http_code = 404;
+            exit;
+        }
+
+        if($user->id === $project->user_id) {
+            $error_mesaage = 'You may not remove yourself from your Project ... xD';
+            $http_code = 499; // whatever
+            exit;
+        }
+
+        $project->users()->detach($user->id).
+
+
+        $target_uri = create_url_with_attribute(['action' => 'show', 'object' => 'project', 'if' => $id],'board');
     }
 }
 

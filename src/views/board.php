@@ -16,13 +16,24 @@
                     N/A
                 <?php endif; ?>
             </li>
+            <?php if((Auth()->id() == $project->user_id || false /* per-project settings if everyone can see the list of user ... ('settings': JSON) */ ) && $project->user->count() > 0): //owner ?>
+                <li>
+                    Users
+                    <ul>
+                        <?php foreach($project->users as $project_user): ?>
+                            <li><?= $project_user['username'] ?><?= true ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <br>
+            <?php endif; ?>
         </ul>
         
-        <a href="?action=edit&object=project&id=<?= urlencode($project->id) ?>" class="btn btn-edit">
+        <a href="<?= create_url_with_attributes(['action' => 'edit', 'object' => 'project', 'id' => urlencode($project->id)]) ?>" class="btn btn-edit">
             <button type="button">Edit Project details</button>
         </a>
 
-        <form action="?action=addUser&object=project&id=<?= urlencode($project->id) ?>" class="add-user-form" method="post">
+        <form action="<?= create_url_with_attributes(['action' => 'addUser', 'object' => 'project', 'id' => urlencode($project->id)]) ?>" class="add-user-form" method="post">
             <label for="user">Username/user_id</label>
             <input type="text" name="user" placeholder="012345678-9ab1-2345-6789-10cdefghi1kl">
         </form>
@@ -69,7 +80,7 @@
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
                         <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
-                            <form action="?action=update&object=item&id=<?= $item->id ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
+                            <form action="<?= create_url_with_attributes(['action' => 'update', 'object' => 'item', 'id' => urlencode($project->id)]) ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
                                 <span class="id">ID: <?= $item->id ?></span>
                                 
                                 <label for="name_<?= $item->id ?>"></label>
@@ -134,7 +145,7 @@
     </div>
 
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
-    <form action="?action=store&object=item&id=<?= $project->id ?>" method="post" id="itemCreationForm">
+    <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm">
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
         <input type="text" name="name" placeholder="Auth Issue" required>

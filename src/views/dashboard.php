@@ -11,19 +11,23 @@
             <?php endif ?>
         </a>
     <?php endforeach ?>
+    
     <?php foreach(Auth()->user()->projects as $project): ?>
-        <a class="item" href="?action=show&object=project&id=<?= urlencode($project->id) ?>">
+        <a class="item" href="<?= create_url_with_attributes(['action' => 'show', 'obkect' => 'project', 'id' => urlencode($project->id)]) ?>">
             <span class="name"><?= htmlspecialchars($project->id) ?></span>
             <?php if(!empty($project->description)): ?>
+
                 <p class="description"><?= htmlspecialchars($project->description) ?></p>
             <?php endif ?>
         </a>
+        
         <span class="owner_name">by "<?= htmlspecialchars($project->owner->username ?? 'Unknown') ?>"</span>
     <?php endforeach ?>
     </div>
+
+    <!-- <a href="<?= create_url_with_attributes(['action' => 'create', 'obkect' => 'project']) ?>">Create new Project</a> -->
 <?php else: ?>
     you seem to have no Projects.
-    <a href="?action=create&object=project">Create one</a>
 <?php endif ?>
 
-<a href="?action=create&object=project">Create new Project</a>
+<a href="<?= create_url_with_attributes(['action' => 'create', 'obkect' => 'project']) ?>">Create <?= Auth()->user()->hasProjects() ? 'a new Project'  : 'one' ?></a>
