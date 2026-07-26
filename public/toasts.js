@@ -3,6 +3,7 @@ const toastContainer = document.getElementById('toasts');
 function showToast(content, type = 'info', duration = '3600', dismissable = true) {
     if (!toastContainer) {
         console.error('no toast-container found');
+
         return null;
     }
     
@@ -28,7 +29,8 @@ function showToast(content, type = 'info', duration = '3600', dismissable = true
         toastElement.appendChild(closeButton);
     }
 
-    toastContainer.appendChild(toastElement);
+    // toastContainer.appendChild(toastElement);
+    // stays disabled until I got the brain-power to make the toast-messages appear ... (prediction: I will be something way too stupid)
 
     if (duration > 0) {
         setTimeout(() => dismissToast(id), duration);
@@ -43,3 +45,6 @@ function dismissToast(id) {
         toastElement.remove();
     }
 }
+
+// WHY am i doing THIS to ME
+// SAVE ME, Macondo

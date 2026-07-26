@@ -1,1 +1,3 @@
-<?php if(!$auth->check()) {include __DIR__ . '/forms/signup.php'; include __DIR__ . '/forms/login.php'; } /* show forms when not authenticated */ else {echo("Already logged in, {$auth->user()->name}");}; ?>
+<div class="auth-container">
+    <?php if(!$auth->check()) {include __DIR__ . '/forms/signup.php'; include __DIR__ . '/forms/login.php'; } /* show forms when not authenticated */ else {echo("Already logged in, {$auth->user()->name}");}; ?>
+</div>

@@ -19,12 +19,15 @@ if (!function_exists('dotenv')) {
             case 'true':
             case '(true)':
                 return true;
+
             case 'false':
             case '(false)':
                 return false;
+
             case 'empty':
             case '(empty)':
                 return '';
+
             case 'null':
             case '(null)':
                 return null;
@@ -114,10 +117,11 @@ if (!function_exists('app_log')) {
 
 */
 function echoForm(string $action, array $inputs, ?string $id = null, string $method = 'post', $attriubutes = [['t', 'o',], ['d', 'o',],]) {
+    // maybe automatic $action-generation using the new function ...
+
     $form = '';
 
     $id_attribute = $id !== null ? sprintf(" id=\"{$id}\"") : '';
-
 
     $form = sprintf('<form action="%s" method="%s"%s>', $action, $method, $id_attribute); // dubble-quotes would have been too painful
     
@@ -133,7 +137,6 @@ function echoForm(string $action, array $inputs, ?string $id = null, string $met
         }
         $form .= '>';
     }
-
     $form .= '</form>';
 
     echo $form;
@@ -144,7 +147,7 @@ function createUuid() {
 }
 
 function create_url_with_attributes(array $attributes, ?string $uri = '') {
-    
+
     if (empty($attributes)) {
         return (string) $uri;
     }
@@ -153,4 +156,9 @@ function create_url_with_attributes(array $attributes, ?string $uri = '') {
     $separator = str_contains((string) $uri, '?') ? '&' : '?';
 
     return $uri . $separator . $attributes_string;
+}
+
+
+function url_(array $attributes, ?string $uri = '') {
+    return create_url_with_attributes($attributes, $uri);
 }

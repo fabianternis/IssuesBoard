@@ -21,7 +21,7 @@
                     Users
                     <ul>
                         <?php foreach($project->users as $project_user): ?>
-                            <li><?= $project_user['username'] ?><?= true ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?></li>
+                            <li><?= $project_user['username'] ?><?= true ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?><!-- May use "confirmation" (e.g. modal/alert() ...) --></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>
@@ -71,11 +71,11 @@
             $groupedItems[$itemType][] = $item;
         }
     ?>
+
     <div class="board">
         <?php foreach ($types as $type): ?>
             <div class="board-column column-<?= $type ?>">
                 <h3> <?= $type ?> <!-- (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?> --></h3>
-                
                 <!-- ToDo: Styles (some classes set already)  - Still same ToDo ... (bit of progress) -->
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
@@ -152,7 +152,7 @@
 
         <label for="type">Type</label>
         <select name="type">
-            <?php foreach(['issue', 'todo', 'idea', 'other'] as $option): ?>
+            <?php foreach($types as $option): ?>
                 <option value="<?= $option ?>"><?= ucfirst($option) ?></option>
             <?php endforeach ?>
         </select>
@@ -160,10 +160,10 @@
         <label for="description">Description (Optional)</label>
         <textarea name="description"></textarea>
 
-        <label for="external_url">Link</label>
+        <label for="external_url">External Link</label>
         <input type="url" name="external_url" placeholder="http://to.your/github/issue">
 
-        <label for="order_index">Index</label>
+        <label for="order_index">Index (smaller = upper(closer to teh top of the list)) (Optional)</label>
         <input type="number" name="order_index" value="0" required>
 
         <input type="submit" value="Add Item">

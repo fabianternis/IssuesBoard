@@ -20,7 +20,7 @@
                 <p class="description"><?= htmlspecialchars($project->description) ?></p>
             <?php endif ?>
         </a>
-        
+
         <span class="owner_name">by "<?= htmlspecialchars($project->owner->username ?? 'Unknown') ?>"</span>
     <?php endforeach ?>
     </div>
@@ -30,4 +30,4 @@
     you seem to have no Projects.
 <?php endif ?>
 
-<a href="<?= create_url_with_attributes(['action' => 'create', 'obkect' => 'project']) ?>">Create <?= Auth()->user()->hasProjects() ? 'a new Project'  : 'one' ?></a>
+<a href="<?= create_url_with_attributes(['action' => 'create', 'object' => 'project']) ?>">Create <?= Auth()->user()->hasProjects() ? 'a new Project'  : 'one' ?></a>
