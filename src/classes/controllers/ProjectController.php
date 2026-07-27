@@ -287,6 +287,71 @@ class ProjectController extends Controller
 
         $target_uri = create_url_with_attribute(['action' => 'show', 'object' => 'project', 'if' => $id],'board');
     }
+        
+    public function settings($id)
+    {
+        global $http_code, $error_message, $project, $view_name;
+
+        if (!Auth()->check()) {
+            $http_code = 403;
+            $error_message = 'Log in first';
+            return;
+        }
+
+        $project = Project::where('id', $id)->first();
+
+        if (!$project) {
+            $http_code = 404;
+            $error_message = 'No project could be found';
+            return;
+        }
+
+        $userId = Auth()->id();
+        if ($project->user_id !== $userId && !$project->users()->where('users.id', $userId)->exists()) {
+            $http_code = 403;
+            $error_message = 'You seem not to own this Project';
+            return;
+        }
+
+        $view_name = 'project_settings';
+    }
+
+    public function storeSettings($id)
+    {
+        global $http_code, $error_message, $target_uri;
+
+        if (!Auth()->check()) {
+            $http_code = 403;
+            $error_message = 'Log in first';
+            return;
+        }
+
+        $project = Project::where('id', $id)->first();
+
+        if (!$project) {
+            $http_code = 404;
+            $error_message = 'No Project could be found.';
+            return;
+        }
+
+        if ($project->user_id !== Auth()->id()) {
+            $http_code = 403;
+            $error_message = 'you have to be the owner to chnage settings';
+            return;
+        }
+
+        $currentSettings = is_string($project->settings) ? (json_decode($project->settings, true) ?? []) : ($project->settings ?? []);
+
+        $updatedSettings = array_merge($currentSettings, [
+            'all_see_members'    => isset($_POST['all_see_members']) && $_POST['all_see_members'] === '1',
+            'show_member_emails' => isset($_POST['show_member_emails']) && $_POST['show_member_emails'] === '1',
+            'types'              => trim($_POST['types'] ?? ''),
+        ]);
+
+        $project->update(['settings' => is_array($project->settings) ? $updatedSettings : json_encode($updatedSettings),]);
+
+        $target_uri = create_url_with_attributes(['action' => 'show', 'object' => 'project', 'id' => $project->id], 'board');
+    }
 }
 
 // index, create, store, show, edit, update

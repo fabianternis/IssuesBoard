@@ -2,14 +2,18 @@
     <div id="board-data" data-project-id="<?= $project->id ?>" class="display-none"></div>
     <div class="project-info">
         <ul class="info-list">
-            <li><strong>Project ID:</strong> <?= htmlspecialchars($project->id) ?></li>
-            <li><strong>Name:</strong> <?= htmlspecialchars($project->name) ?></li>
+            <li>
+                <strong>Project ID:</strong> <?= htmlspecialchars($project->id) ?>
+            </li>
+            <li>
+                <strong>Name:</strong> <?= htmlspecialchars($project->name) ?>
+            </li>
             <li>
                 <strong>Description:</strong> 
                 <?= htmlspecialchars($project->description ?? 'No description provided.') ?>
             </li>
             <li>
-                <strong>Repo URL:</strong> 
+                <strong>Repo URL:</strong>
                 <?php if(!empty($project->repo_url)): ?>
                     <a href="<?= htmlspecialchars($project->repo_url) ?>" target="_blank"><?= htmlspecialchars($project->repo_url) ?></a>
                 <?php else: ?>
@@ -21,16 +25,19 @@
                     Users
                     <ul>
                         <?php foreach($project->users as $project_user): ?>
-                            <li><?= $project_user['username'] ?><?= true ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?><!-- May use "confirmation" (e.g. modal/alert() ...) --></li>
+                            <li><?= $project_user['username'] ?><?= (true && true) ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?><!-- May use "confirmation" (e.g. modal/alert() ...) --></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>
-                <br>
             <?php endif; ?>
+            <br>
         </ul>
         
         <a href="<?= create_url_with_attributes(['action' => 'edit', 'object' => 'project', 'id' => urlencode($project->id)]) ?>" class="btn btn-edit">
             <button type="button">Edit Project details</button>
+        </a>
+        <a href="<?= create_url_with_attributes(['action' => 'settings', 'object' => 'project', 'id' => urlencode($project->id)]) ?>" class="btn btn-settings">
+            <button type="button">Chnage Project Settings</button>
         </a>
 
         <form action="<?= create_url_with_attributes(['action' => 'addUser', 'object' => 'project', 'id' => urlencode($project->id)]) ?>" class="add-user-form" method="post">
@@ -40,12 +47,14 @@
     </div>
 
 
+
     <div id="time-container" class="none">Time until auto-save: <span id="time-display"></span></div>
 
     <div class="items-container">
     
-    <!-- <?= $project->items->count().' Items' ?> -->
 
+
+    <!-- <?= $project->items->count().' Items' ?> -->
     <!-- <?php foreach($project->items as $item): ?>
         <?= $item->name ?>
     <?php endforeach ?> -->
@@ -72,6 +81,7 @@
         }
     ?>
 
+
     <div class="board">
         <?php foreach ($types as $type): ?>
             <div class="board-column column-<?= $type ?>">
@@ -94,7 +104,7 @@
                                 </select>
 
                                 <label for="description_<?= $item->id ?>">Description</label>
-                                <textarea class="item-inpt" id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
+                                <textarea clss="item-inpt" id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
 
                                 <label for="state_<?= $item->id ?>">State</label>
                                 <input class="item-inpt" type="text" id="state_<?= $item->id ?>" name="state" placeholder="In Work" value="<?= htmlspecialchars($item->state ?? '') ?>">
@@ -112,6 +122,8 @@
             </div>
         <?php endforeach ?>
     </div>
+
+
 
     <!-- <?php foreach($project->items as $item): ?>
         <div class="item item-<?= $item->type ?>" id="item_<?= $item->id ?>">
@@ -144,6 +156,9 @@
     <?php endforeach ?> -->
     </div>
 
+
+    
+
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
     <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm">
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
@@ -169,6 +184,9 @@
         <input type="submit" value="Add Item">
     </form>
 <?php endif ?>
+
+
+
 
 <script src="board.js"></script>
 

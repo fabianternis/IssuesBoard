@@ -10,8 +10,12 @@ class Project extends Model
     protected $table = 'projects';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'user_id', 'name', 'description', 'repo_url', 'deleted_at'];
-    public $timestamps = false; 
+    protected $fillable = ['id', 'user_id', 'name', 'description', 'repo_url', 'deleted_at', 'settings'];
+    public $timestamps = false;
+
+    protected $casts = [
+        'settings' => 'array',
+    ];
 
     protected static function boot()
     {
