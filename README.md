@@ -35,12 +35,13 @@ action=create: create the Object (in DB)
 
 # Actual Content
 
-
-
-
-
-
 ## "Board" (main nterface)
 - columns for each "type"(currently: Issute/Idea/ToDo/Other) that are colore
 - items (forms inside columns that are draggable – auto-save after 5s of nothing happenig after change ...)
 ... other stuff ...
+
+
+# My Personal conclusion from this Project
+After working on this Project I appreciate _(my have to look up a better fitting word)_ the Work of Developers pre-AI-slop.
+This was propably my first time ever working on such a "complex"(it is not actually __that__ complex but just rather complex as a Beginner, _I_ am) project fully without the use of Artificial Slop.
+I think taht, after this project, i can relate better to a lot of developers which complains and experiences i hardly understood before

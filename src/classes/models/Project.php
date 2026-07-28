@@ -70,4 +70,16 @@ class Project extends Model
     {
         return $this->soft_delete();
     }
+
+    // public function checkSetting($setting)
+    public function getSetting($setting)
+    {
+        return json_decode($this->settings)[$setting];
+    }
+
+
+    public function checkSetting($setting, $value)
+    {
+        return $this->getSetting($setting) == $value;
+    }
 }

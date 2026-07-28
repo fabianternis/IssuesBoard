@@ -78,7 +78,8 @@ class ProjectController extends Controller
                 [
                     'type' => 'url',
                     'name' => 'repo_url',
-                    'placeholder' => 'Repository URL (e.g., https://github.com/user/repo)', // cant be seen on the actual input in full ...
+                    // 'placeholder' => 'Repository URL (e.g., https://github.com/user/repo)', // cant be seen on the actual input in full ...
+                    'placeholder' => 'https://github.com/fabianternis/IssuesBoard', // .
                     'value' => $project->repo_url,
                 ],
                 [
@@ -134,6 +135,7 @@ class ProjectController extends Controller
             $http_code = 404;
             $error_message = 'Project could not be found';
             return;
+            
         }
 
         $userId = Auth()->id();
@@ -206,12 +208,13 @@ class ProjectController extends Controller
                     
                     if ($item) {
                         $item->update([
-                            'name'         => $itemData['name'] ?? $item->name,
-                            'description'  => $itemData['description'] ?? $item->description,
-                            'type'         => $itemData['type'] ?? $item->type,
-                            'state'        => $itemData['state'] ?? $item->state,
+                            'name' => $itemData['name'] ?? $item->name,
+                            'description' => $itemData['description'] ?? $item->description,
+                            'type' => $itemData['type'] ?? $item->type,
+                            'state' => $itemData['state'] ?? $item->state,
                             'external_url' => $itemData['external_url'] ?? $item->external_url,
-                            'order_index'  => $itemData['order_index'] ?? ($item->order_index ?? 0),
+                            'order_index' => $itemData['order_index'] ?? ($item->order_index ?? 0),
+                            'commit_id' => (empty($project->repo_url) || !isset($project->repo_url)) ? null : ($itemData['commit_id'] ?? ($item->commit_id ?? null)), // What did i do here?
                         ]);
                     } else {
                         // may not do anything ...

@@ -31,11 +31,13 @@ class ItemController extends Controller
             'description' => $_POST['description'] ?? null,
             'external_url' => $_POST['external_url'] ?? null,
             //'state' /* maybe "Advanced" options ...*/
-            'order_index'  => $_POST['order_index'] ?? 0,
+            'order_index' => $_POST['order_index'] ?? 0,
+            'commit_id' => empty($project->repo_url) ? null : ($_POST['commit_id'] ?? null)
         ]);
 
          $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
     }
+
     public function update($id)
     // currently not in use bc. batchUpdate() on ProjectController ...
     {
@@ -52,12 +54,15 @@ class ItemController extends Controller
         //     $error_message = 'You have no permission to access this Project';
         } else {
             $item->update([
+                // fn() not in use ... i still updated ...
                 'name' => $_POST['name'] ?? $project->name,
                 'description' => $_POST['description'] ?? $project->description,
                 'type' => $_POST['type'] ?? $project->type,
                 'state' => $_POST['state'] ?? $project->state,
-                'external_url' => $_POST['external_url'] ?? $project->external_url,
+                // 'external_url' => $_POST['external_url'] ?? $project->external_url,
+                'external_url' => $_POST['external_url'] ?? null,
                 'order_index' => $_POST['order_index'] ?? 0,
+                'commit_id' => empty($project->repo_url) ? null : ($_POST['commit_id'] ?? null)
             ]);
 
             $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;

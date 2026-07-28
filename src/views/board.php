@@ -25,7 +25,7 @@
                     Users
                     <ul>
                         <?php foreach($project->users as $project_user): ?>
-                            <li><?= $project_user['username'] ?><?= (true && true) ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?><!-- May use "confirmation" (e.g. modal/alert() ...) --></li>
+                            <li><?= $project_user['username'] ?><?= (($project_user['settings']['show_email_stuff_TODO'] ?? false) && $project->getSetting('show_member_emails')) ? "(<i>{$project_user['email']}</i>)" : ''  // ToDo: Add settings for taht and actually implement them ... ?> <?php if((Auth()->id() == $project->user_id)): ?><a href="<?php //echo(create_url_with_attribute(['action' => 'removeuser', 'object' => 'project', 'id' => $project['id']], 'board')) ?>">Remove (not functional rn)</a><?php endif; ?><!-- May use "confirmation" (e.g. modal/alert() ...) --></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>
@@ -87,6 +87,7 @@
             <div class="board-column column-<?= $type ?>">
                 <h3> <?= $type ?> <!-- (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?> --></h3>
                 <!-- ToDo: Styles (some classes set already)  - Still same ToDo ... (bit of progress) -->
+                
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
                         <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
@@ -114,6 +115,11 @@
 
                                 <label for="order_index_<?= $item->id ?>">Index</label>
                                 <input class="item-inpt" type="number" name="order_index" id="order_index_<?= $item->id ?>" value="<?= htmlspecialchars($item->order_index ?? 0) ?>">
+
+                                <?php if(!empty($project->repo_url)): ?>
+                                    <label for="commit_id_<?= $item->id ?>">Commit ID</label>
+                                    <input class="item-inpt" type="text" name="commit_id" id="commit_id_<?= $item->id ?>" value="<?= htmlspecialchars($item->commit_id ?? '') ?>">
+                                <?php endif; ?>
                             </form>
                         </div>
                     <?php endforeach ?>
@@ -157,6 +163,7 @@
     </div>
 
 
+
     
 
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
@@ -180,6 +187,11 @@
 
         <label for="order_index">Index (smaller = upper(closer to teh top of the list)) (Optional)</label>
         <input type="number" name="order_index" value="0" required>
+
+        <?php if(!empty($project->repo_url)): ?>
+            <label for="commit_id">Commit ID (Optional)</label>
+            <input class="item-inpt" type="text" name="commit_id">
+        <?php endif; ?>
 
         <input type="submit" value="Add Item">
     </form>
