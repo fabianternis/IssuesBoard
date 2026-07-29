@@ -30,6 +30,7 @@ class ProjectController extends Controller
         ];
         
         echoForm($target_action, $inputs, 'form-create-project', 'POST');
+        // todo: set var to form and echo form on view ... (set $view_name as well) ...
     }
 
     public function store() 
@@ -135,7 +136,6 @@ class ProjectController extends Controller
             $http_code = 404;
             $error_message = 'Project could not be found';
             return;
-            
         }
 
         $userId = Auth()->id();
@@ -214,7 +214,8 @@ class ProjectController extends Controller
                             'state' => $itemData['state'] ?? $item->state,
                             'external_url' => $itemData['external_url'] ?? $item->external_url,
                             'order_index' => $itemData['order_index'] ?? ($item->order_index ?? 0),
-                            'commit_id' => (empty($project->repo_url) || !isset($project->repo_url)) ? null : ($itemData['commit_id'] ?? ($item->commit_id ?? null)), // What did i do here?
+                            // 'commit_id' => (empty($project->repo_url) || !isset($project->repo_url)) ? null : ($itemData['commit_id'] ?? ($item->commit_id ?? null)), // What did i do here? 
+                            'commit_id' => !empty($item->commit_id) ? $item->commit_id : (!empty($project->repo_url) ? ($itemData['commit_id'] ?? null) : null), // Way enhanced ... dodn't i?
                         ]);
                     } else {
                         // may not do anything ...
@@ -246,13 +247,11 @@ class ProjectController extends Controller
 
         $new_user = User::where('id', $user_ident)->orWhere('username', $user_ident)->orWhere('email', $user_ident)->firstOrFail();
 
-
         // if (!isset($new_user)) {
         //     $error_mesaage = 'No user to add found.';
         //     $http_code = 404;
         //     exit;
         // }
-
 
         if ($new_user->id === $project->user_id) {
             $error_message = 'You may not add yourself to your own Project ... xD';
@@ -346,12 +345,13 @@ class ProjectController extends Controller
         $currentSettings = is_string($project->settings) ? (json_decode($project->settings, true) ?? []) : ($project->settings ?? []);
 
         $updatedSettings = array_merge($currentSettings, [
-            'all_see_members'    => isset($_POST['all_see_members']) && $_POST['all_see_members'] === '1',
+            'all_see_members' => isset($_POST['all_see_members']) && $_POST['all_see_members'] === '1',
             'show_member_emails' => isset($_POST['show_member_emails']) && $_POST['show_member_emails'] === '1',
-            'types'              => trim($_POST['types'] ?? ''),
+            'types' => trim($_POST['types'] ?? ''),
         ]);
 
-        $project->update(['settings' => is_array($project->settings) ? $updatedSettings : json_encode($updatedSettings),]);
+        // $project->update(['settings' => is_array($project->settings) ? $updatedSettings : json_encode($updatedSettings),]);
+        $project->update(['settings' => json_encode($updatedSettings),]);
 
         $target_uri = create_url_with_attributes(['action' => 'show', 'object' => 'project', 'id' => $project->id], 'board');
     }
@@ -360,5 +360,5 @@ class ProjectController extends Controller
 // index, create, store, show, edit, update
 
 // ToDo: "validation"
-
 // ToDo: $content_type or $header[$header-name_string]
+// TODO: READ THE TODOs ...
