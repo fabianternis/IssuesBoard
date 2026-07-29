@@ -14,7 +14,7 @@ class Media extends Model
 
 
     // protected static function boot()
-    public function uploadAndAssign(string $base64Data, string $originalFilename)
+    public function uploadAndAssign(string $base64Data, string $originalFilename) {
         // parent::boot();
 
         // static::creating(function ($model) {
