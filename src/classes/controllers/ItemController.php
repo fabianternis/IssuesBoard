@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\{Project, Item};
+use Models\{Project, Item, Media};
 use Ramsey\Uuid\Uuid;
 
 class ItemController extends Controller
@@ -34,6 +34,11 @@ class ItemController extends Controller
             'order_index' => $_POST['order_index'] ?? 0,
             'commit_id' => empty($project->repo_url) ? null : ($_POST['commit_id'] ?? null)
         ]);
+
+        if (isset($_POST['image'])) {
+            // TODO: do this actually (reaserch what to do ...)
+            $media = new Media()->createFromBase64($_POST['image'], attributes: ['parent_id' => $item->id, 'owner_type' => Item::class]); //ToDo: "morphing"
+        }
 
          $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
     }

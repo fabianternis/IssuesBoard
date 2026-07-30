@@ -165,9 +165,8 @@
 
 
     
-
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
-    <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm">
+    <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm" enctype="multipart/form-data">
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
         <input type="text" name="name" placeholder="Auth Issue" required>
@@ -191,6 +190,14 @@
         <?php if(!empty($project->repo_url)): ?>
             <label for="commit_id">Commit ID (Optional)</label>
             <input class="item-inpt" type="text" name="commit_id">
+        <?php endif; ?>
+
+        <?php if(true): // Setting  "allow_media" or sth. ?>
+            <!-- <label for="evidence"> -->
+            <label for="image">
+                Image (e.g. Evicence of Faliure)
+            </label>
+            <input type="file" name="image" id="image">
         <?php endif; ?>
 
         <input type="submit" value="Add Item">

@@ -10,11 +10,14 @@ class Media extends Model
     protected $table = 'media';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'parent_id', 'parent_type', 'cdn_id', 'cdn_filename', 'cdn_url', 'description'];    public $timestamps = false;
+    protected $fillable = ['id', 'parent_id', 'parent_type', 'remote_id', 'filename', 'url', 'description'];
+    public $timestamps = false;
 
 
     // protected static function boot()
-    public function uploadAndAssign(string $base64Data, string $originalFilename) {
+    // public function uploadAndAssign(string $base64Data, string $originalFilename)
+    public static function createFromBase64(string $base64Data, string $originalFilename, array $attributes = []): self
+    {
         // parent::boot();
 
         // static::creating(function ($model) {
@@ -36,21 +39,35 @@ class Media extends Model
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => fopen('data://text/plain;base64,' . $base64Data, 'r'),
+                        'contents' => base64_decode($base64Data),
                         'filename' => $originalFilename,
                     ],
                 ],
-                
             ]);
 
             $response_data = json_decode((string) $response->getBody(), true);
 
-            $this->cdn_id = $response_data['id'] ?? null;
-            // $this->cdn_filename = $originalFilename;
-            $this->cdn_filename = $response_data['filename'] ?? null;
-            $this->cdn_url = $response_data['url'] ?? null;
+            // $this->remote_id = $response_data['id'] ?? null;
+            // // $this->cdn_filename = $originalFilename;
+            // $this->filename = $response_data['filename'] ?? $originalFilename;
+            // $this->url = $response_data['url'] ?? null;
 
-            return $this->save();
+            // // Align local primary key with remote_id and persist model
+            // return $this->syncWithRemoteId($this->remote_id);
+
+            $remote_id = $response_data['id'] ?? null;
+
+            if (!$remote_id) {
+                // ToDO: Error Stuff (Hackclub CDN Error)
+            }
+
+            return static::create(array_merge($attributes,
+            [
+                'id' => $remote_id,
+                'remote_id' => $remote_id,
+                'filename' => $response_data['filename'] ?? $originalFilename,
+                'url'  => $response_data['url'] ?? null,
+            ]));
 
         // });
     }
@@ -62,6 +79,16 @@ class Media extends Model
     }
 
 
+    public function syncWithRemoteId(?string $remote_id = null)
+    {
+        $id = $remote_id ?? $this->remote_id;
+
+        if (!empty($id)) {
+            $this->setAttribute($this->getKeyName(), $id);
+        }
+
+        return $this->save();
+    }
     
     // public function isDeleted(): bool
     // {
