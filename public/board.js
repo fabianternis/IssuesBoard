@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardData = document.getElementById('board-data');
     const projectId = boardData ? boardData.dataset.projectId : null;
     const saveButton = document.getElementById('button-save');
+    const saveButton2 = document.getElementById('button-save-2');
 
     let countdownInterval = null;
 
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //     }
 
     function scheduleBatchSave() {
+        /*
         if (!projectId) {
             console.error('Project ID missing ... (whyever / however this could have happened (should not be possible with the current state of teh PHP) ...')
             return;
@@ -177,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 executeBatchSave();
             }
         }, 1000);
+        */
     }
 
     function executeBatchSave(e) {
@@ -215,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     saveButton.addEventListener('click', executeBatchSave);
+    saveButton2.addEventListener('click', executeBatchSave);
 });
 
 
@@ -226,3 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // ToDo: CMD+S-listener to direct save (like the "save button" ...)
 // TODO: collapse/expand items ... (better overview, UX and co. ...)
 // ToDO: "order_index" seems not to get stored ...
+
+
+// ToDo: make auto-save fucntion again
+
+// todo: add up/down-buttons for items (to change order_index quickly and bake UX better than it currently is ...)

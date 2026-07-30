@@ -82,6 +82,9 @@
     ?>
 
 
+    <button id="button-save">Save Changes <span class="now">NOW</span></button>
+
+
     <div class="board">
         <?php foreach ($types as $type): ?>
             <div class="board-column column-<?= $type ?>">
@@ -177,11 +180,14 @@
     <?php endforeach ?> -->
     </div>
 
+    <button id="button-save-2">Save Changes <span class="now">NOW</span></button>
 
 
     
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
     <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm" enctype="multipart/form-data">
+        <h3>Add new item</h3>
+
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
         <input type="text" name="name" placeholder="Auth Issue" required>
@@ -213,6 +219,8 @@
                 Image (e.g. Evicence of Faliure)
             </label>
             <input type="file" name="image" id="image">
+            <note>please do not uplaod any <i>illegal</i> images.</note>
+            <br>
         <?php endif; ?>
 
         <input type="submit" value="Add Item">
@@ -223,5 +231,3 @@
 
 
 <script src="board.js"></script>
-
-<button id="button-save">Save Changes <span class="now">NOW</span></button>
