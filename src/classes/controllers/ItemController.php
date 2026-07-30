@@ -35,9 +35,12 @@ class ItemController extends Controller
             'commit_id' => empty($project->repo_url) ? null : ($_POST['commit_id'] ?? null)
         ]);
 
-        if (isset($_POST['image'])) {
-            // TODO: do this actually (reaserch what to do ...)
-            $media = new Media()->createFromBase64($_POST['image'], attributes: ['parent_id' => $item->id, 'owner_type' => Item::class]); //ToDo: "morphing"
+        // if (isset($_POST['image'])) {
+        //     // TODO: do this actually (reaserch what to do ...)
+        //     $media = new Media()->createFromBase64($_POST['image'], attributes: ['parent_id' => $item->id, 'owner_type' => Item::class]); //ToDo: "morphing"
+        // }
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            Media::createFromUpload($_FILES['image'], attributes: ['parent_id' => $item->id, 'parent_type' => Item::class,]);
         }
 
          $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;

@@ -23,7 +23,7 @@ class Item extends Model
         'type',
         'state',
         'external_url',
-        // 'image_url'
+        // 'image_url' // WOW – now there is a Media-model and media-table ...
         'order_index',
         'deleted_at',
         'commit_id',
@@ -93,5 +93,15 @@ class Item extends Model
         } else {
             return null;
         }
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'parent');
+    }
+
+    public function hasMedia(): bool
+    {
+        return $this->media()->exists();
     }
 }

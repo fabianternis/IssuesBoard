@@ -203,6 +203,15 @@ footer {
                     }
                 }
 
+                &.collapsed {
+                    form {
+                    *:not(input[name="name"]) {
+                        display: none;
+                        visibility: hidden;
+                    }
+                    }
+                }
+                
                 cursor: grab;
                 &:active {
                     cursor: grabbing;

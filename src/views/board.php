@@ -90,7 +90,9 @@
                 
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
+                        <!-- ToDo: consider storing teh collapsed-state (maybe also per-user ...) -->
                         <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
+                            <input type="checkbox" name="collapse_toggle" id="collapse_toggle<?= $item->id ?>" class="collapse-toggle">
                             <form action="<?= create_url_with_attributes(['action' => 'update', 'object' => 'item', 'id' => urlencode($project->id)]) ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
                                 <span class="id">ID: <?= $item->id ?></span>
                                 
@@ -119,6 +121,19 @@
                                 <?php if(!empty($project->repo_url)): ?>
                                     <label for="commit_id_<?= $item->id ?>">Commit ID</label>
                                     <input class="item-inpt" type="text" name="commit_id" id="commit_id_<?= $item->id ?>" value="<?= htmlspecialchars($item->commit_id ?? '') ?>">
+                                <?php endif; ?>
+
+
+                                <?php //if(!empty($project->hasMedia())): ?>
+                                <?php if($item->hasMedia()): ?>
+                                <!-- ToDO: Also add "delete" and for for uploading new ... -->
+                                    <?php //foreach($project->media() as $media): ?>
+                                    <?php //foreach($item->media() as $media): ?>
+                                    <?php foreach($item->media as $media): ?>
+                                        <!-- HOW STUPID AM I? – i used $project instead of $item ... -->
+                                        <img src="<?= $media->url ?>">
+                                        <!-- ToDO: Add getUrl() ... -->
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </form>
                         </div>

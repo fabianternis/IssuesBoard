@@ -16,7 +16,8 @@ class Media extends Model
 
     // protected static function boot()
     // public function uploadAndAssign(string $base64Data, string $originalFilename)
-    public static function createFromBase64(string $base64Data, string $originalFilename, array $attributes = []): self
+    // public static function createFromBase64(string $base64Data, string $originalFilename, array $attributes = []): self
+    public static function createFromUpload(array $file, array $attributes = []): self
     {
         // parent::boot();
 
@@ -32,15 +33,19 @@ class Media extends Model
 
             $client = new \GuzzleHttp\Client();
 
-            $response = $client->post('https://cdn.hackclub.com/api/v1/upload', [
+            // $response = $client->post('https://cdn.hackclub.com/api/v1/upload', [
+            // BRUH
+            $response = $client->post('https://cdn.hackclub.com/api/v4/upload', [
                 'headers' => [
                     'Authorization' => 'Bearer '.env('HACKCLUB_CDN_API_KEY'),
                 ],
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => base64_decode($base64Data),
-                        'filename' => $originalFilename,
+                        // 'contents' => base64_decode($base64Data),
+                        'contents' => fopen($file['tmp_name'], 'r'),
+                        // 'filename' => $originalFilename,
+                        'filename' => $file['name'],
                     ],
                 ],
             ]);
@@ -65,7 +70,8 @@ class Media extends Model
             [
                 'id' => $remote_id,
                 'remote_id' => $remote_id,
-                'filename' => $response_data['filename'] ?? $originalFilename,
+                // 'filename' => $response_data['filename'] ?? $originalFilename,
+                'filename' => $response_data['filename'] ?? $file['name'],
                 'url'  => $response_data['url'] ?? null,
             ]));
 

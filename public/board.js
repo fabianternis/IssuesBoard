@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let countdownInterval = null;
 
+    function syncCollapseState(itemElement, toggleInput) {
+        if (toggleInput.checked) {
+            itemElement.classList.add('collapsed');
+        } else {
+            itemElement.classList.remove('collapsed');
+        }
+    }
+
     items.forEach(item => {
         item.addEventListener('dragstart', handleDragStart);
         item.addEventListener('dragend', handleDragEnd);
@@ -16,6 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
         item.querySelectorAll('.item-inpt').forEach(input => {
             input.addEventListener('input', scheduleBatchSave);
         });
+
+
+        const collapseToggle = item.querySelector('.collapse-toggle');
+        if (collapseToggle) {
+            syncCollapseState(item, collapseToggle);
+            
+            collapseToggle.addEventListener('change', (e) => {
+                syncCollapseState(item, e.target);
+            });
+
+            collapseToggle.addEventListener('mousedown', (e) => e.stopPropagation()); // have to do that for each input ...- or alt least some
+        }
     });
 
     dropzones.forEach(zone => {
@@ -204,3 +224,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // ToDo: Add the "type-{$type}"-class also via JS instead of php...
 // ToDo: just send the diff, to allow simultamiou(or however it is written) edits
 // ToDo: CMD+S-listener to direct save (like the "save button" ...)
+// TODO: collapse/expand items ... (better overview, UX and co. ...)
+// ToDO: "order_index" seems not to get stored ...
