@@ -127,21 +127,27 @@
                                 <?php endif; ?>
 
 
-                                <?php //if(!empty($project->hasMedia())): ?>
-                                <?php if($item->hasMedia()): ?>
-                                <!-- ToDO: Also add "delete" and for for uploading new ... -->
-                                    <?php //foreach($project->media() as $media): ?>
-                                    <?php //foreach($item->media() as $media): ?>
-                                    <?php foreach($item->media as $media): ?>
-                                        <!-- HOW STUPID AM I? – i used $project instead of $item ... -->
-                                        <div class="media-item">
-                                            <img src="<?= $media->url ?>">
-                                            <a href="<?= create_url_with_attributes(['action' => 'deleteMedia', 'object' =>'item', 'id' => $item->id, 'mid' => $media->id]) ?>" class="delete-media">Delete</a>
-                                        </div>
+                            </form>
+                            <?php //if(!empty($project->hasMedia())): ?>
+                            <?php if($item->hasMedia()): ?>
+                            <!-- ToDO: Also add "delete" and for for uploading new ... -->
+                                <?php //foreach($project->media() as $media): ?>
+                                <?php //foreach($item->media() as $media): ?>
+                                <?php foreach($item->media as $media): ?>
+                                    <!-- HOW STUPID AM I? – i used $project instead of $item ... -->
+                                    <div class="media-item">
+                                        <img src="<?= $media->url ?>">
+                                        <a href="<?= create_url_with_attributes(['action' => 'deleteMedia', 'object' =>'item', 'id' => $item->id, 'mid' => $media->id]) ?>" class="delete-media">Delete</a>
+                                    </div>
 
-                                        <!-- ToDO: Add getUrl() ... -->
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                    <!-- ToDO: Add getUrl() ... -->
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <form action="<?= create_url_with_attributes(['action' => 'uploadMedia', 'object' => 'item', 'id' => $item->id]) ?>" id="upload-media-form" method="post" enctype="multipart/form-data">
+                                <label for="media_upload_<?= $item->id ?>">Select New Media</label>
+                                <input type="file" name="media_upload" id="media_upload_<?= $item->id ?>">
+                                <span>supported: svg, png, jpg(=jpeg), webp, ...</span>
+                                <input type="submit" value="Upload selected media">
                             </form>
                         </div>
                     <?php endforeach ?>
@@ -220,7 +226,8 @@
         <?php if(true): // Setting  "allow_media" or sth. ?>
             <!-- <label for="evidence"> -->
             <label for="image">
-                Image (e.g. Evicence of Faliure)
+                <!-- Image (e.g. Evicence of Faliure) -->
+                Image (e.g. Screenshot of UI-error)
             </label>
             <input type="file" name="image" id="image">
             <note>please do not uplaod any <i>illegal</i> images.</note>

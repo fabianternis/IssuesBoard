@@ -40,10 +40,11 @@ class ItemController extends Controller
         //     $media = new Media()->createFromBase64($_POST['image'], attributes: ['parent_id' => $item->id, 'owner_type' => Item::class]); //ToDo: "morphing"
         // }
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            Media::createFromUpload($_FILES['image'], attributes: ['parent_id' => $item->id, 'parent_type' => Item::class,]);
+            // Media::createFromUpload($_FILES['image'], attributes: ['parent_id' => $item->id, 'parent_type' => Item::class,]);
+            Media::createFromUpload($_FILES['image'], attributes: ['parent_id' => $id, 'parent_type' => Item::class,]);
         }
 
-         $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
+        $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
     }
 
     public function update($id)
@@ -95,15 +96,14 @@ class ItemController extends Controller
         } else {
             $item->delete();
 
-            $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
+            $target_uri = '/board?action=show&object=project&id=' . $project->id;
         }
     }
 
     // public function removeMedia($id)
     public function deleteMedia($id)
     {
-        // ToDo: global(s)
-        // global $target_uri;
+        global $target_uri, $error_message, $http_code;
 
         $media = Media::where('id', $_GET['mid'])->where('parent_id', $id)->firstOrFail();
 
@@ -114,10 +114,26 @@ class ItemController extends Controller
             // ToDo: here too
         }
 
+        $item = Item::where('id', $id)->firstOrFail();
+        $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
 
-        // $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
-        // ToDO: THIS
+        $target_uri = '/board?action=show&object=project&id=' . $project->id;
+    }
 
-        
+    public function uploadMedia($id)
+    {
+        global $target_uri, $error_message, $http_code;
+
+        if (isset($_FILES['media_upload']) && $_FILES['media_upload']['error'] === UPLOAD_ERR_OK) {
+            Media::createFromUpload($_FILES['media_upload'], attributes: ['parent_id' => $id, 'parent_type' => Item::class,]);
+        }
+
+        $item = Item::where('id', $id)->firstOrFail();
+        $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
+
+        $target_uri = '/board?action=show&object=project&id=' . $project->id;
     }
 }
+
+
+// ToDO: itnternal function: url_from_item_id

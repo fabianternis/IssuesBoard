@@ -261,6 +261,36 @@ footer {
             }
         }
     }
+
+    .media-item {
+        width: 100%;
+        img {
+            width: 100%;
+            /* border-radius: .22rem;; */
+        }
+        border-radius: .22rem;
+        overflow: hidden;
+        a.delete-media {
+            color: red;
+            text-decoration: none;
+
+            &:hover {
+                color: darkred;
+            }
+        }
+        background-color: #eee;
+
+        /* ToDO: "Lightbox" */
+
+        margin-block-start: .3rem;
+    }
+
+    #upload-media-form {
+        margin-block: .5rem;
+        /* padding: 3rem; */
+        background-color: lightblue;
+        padding: .2rem;
+    }
 }
 
 #itemCreationForm {
