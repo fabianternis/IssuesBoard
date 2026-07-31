@@ -47,13 +47,10 @@
     </div>
 
 
-
     <div id="time-container" class="none">Time until auto-save: <span id="time-display"></span></div>
 
+
     <div class="items-container">
-    
-
-
     <!-- <?= $project->items->count().' Items' ?> -->
     <!-- <?php foreach($project->items as $item): ?>
         <?= $item->name ?>
@@ -139,12 +136,10 @@
                                         <img src="<?= $media->url ?>">
                                         <a href="<?= create_url_with_attributes(['action' => 'deleteMedia', 'object' =>'item', 'id' => $item->id, 'mid' => $media->id]) ?>" class="delete-media">Delete</a>
                                     </div>
-
-                                    <!-- ToDO: Add getUrl() ... -->
                                 <?php endforeach; ?>
                             <?php endif; ?>
                             <form action="<?= create_url_with_attributes(['action' => 'uploadMedia', 'object' => 'item', 'id' => $item->id]) ?>" id="upload-media-form" method="post" enctype="multipart/form-data">
-                                <label for="media_upload_<?= $item->id ?>">Select New Media</label>
+                                <label for="media_upload_<?= $item->id ?>">Add New Media</label>
                                 <input type="file" name="media_upload" id="media_upload_<?= $item->id ?>">
                                 <span>supported: svg, png, jpg(=jpeg), webp, ...</span>
                                 <input type="submit" value="Upload selected media">
@@ -196,7 +191,7 @@
     
     <!-- <form action="?acrion=store&object=item&pid=<?= $project->id ?>" method="post" id="itemCreationForm"> -->
     <form action="<?= create_url_with_attributes(['action' => 'store', 'object' =>'item', 'id' => $project->id]) ?>" method="post" id="itemCreationForm" enctype="multipart/form-data">
-        <h3>Add new item</h3>
+        <h3>Create new item</h3>
 
         <!-- NO F***ing way, i wrote ?artion and THAT WAS THE ONLY PROBLEM -->
         <label for="name">Name/Title</label>
@@ -236,7 +231,9 @@
 
         <input type="submit" value="Add Item">
     </form>
-<?php endif ?>
+<?php else: ?>
+    <h1>Seems like there was a big mistake made somewhere, developng this application</h1>
+<?php endif; ?>
 
 
 

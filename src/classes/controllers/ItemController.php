@@ -67,7 +67,7 @@ class ItemController extends Controller
                 'name' => $_POST['name'] ?? $project->name,
                 'description' => $_POST['description'] ?? $project->description,
                 'type' => $_POST['type'] ?? $project->type,
-                'state' => $_POST['state'] ?? $project->state,
+                'state' => $_POST['state'] ?? ($project->state == 'new') ? 'wip' : $project->state, // currently not in use but why not do it anyway
                 // 'external_url' => $_POST['external_url'] ?? $project->external_url,
                 'external_url' => $_POST['external_url'] ?? null,
                 'order_index' => $_POST['order_index'] ?? 0,
@@ -75,6 +75,7 @@ class ItemController extends Controller
             ]);
 
             $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
+            // $this->uri_from_item_id($id); // may be this in the future ...
         }
     }
 
@@ -114,10 +115,7 @@ class ItemController extends Controller
             // ToDo: here too
         }
 
-        $item = Item::where('id', $id)->firstOrFail();
-        $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
-
-        $target_uri = '/board?action=show&object=project&id=' . $project->id;
+        $this->uri_from_item_id($id);
     }
 
     public function uploadMedia($id)
@@ -128,12 +126,20 @@ class ItemController extends Controller
             Media::createFromUpload($_FILES['media_upload'], attributes: ['parent_id' => $id, 'parent_type' => Item::class,]);
         }
 
+        // $target_uri = $this->uri_from_item_id($id);
+        $this->uri_from_item_id($id);
+    }
+
+    public function uri_from_item_id($id)
+    {
         $item = Item::where('id', $id)->firstOrFail();
         $project = Project::where('id', $item->project_id)->where('user_id', $_SESSION['user_id'])->firstOrFail();
 
-        $target_uri = '/board?action=show&object=project&id=' . $project->id;
+        // return '/board?action=show&object=project&id=' . $project->id;
+        $target_uri =  '/board?action=show&object=project&id=' . $project->id;
+        exit; // unsure: Do i have to run this ??
     }
 }
 
 
-// ToDO: itnternal function: url_from_item_id
+// ToDO: itnternal function: uri_from_item_id
