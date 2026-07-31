@@ -42,7 +42,6 @@ $error_message = null;
 $target_uri = $uri;
 
 
-
 function Auth() {
     global $auth;
     return $auth;

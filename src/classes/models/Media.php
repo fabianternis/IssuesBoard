@@ -118,4 +118,34 @@ class Media extends Model
     // {
     //     return $this->soft_delete();
     // }
+
+    public function deleteFully()
+    {
+        // $remote_id = $this->remote_id ?? $this->id;
+        $remote_id = $this->remote_id ?? $this->getKey();
+
+
+        $client = new \GuzzleHttp\Client();
+
+        // $client->delete('https://cdn.hackclub.com/api/v4/upload/' . $remote_id, [
+        //     'headers' => [
+        //         'Authorization' => 'Bearer '.env('HACKCLUB_CDN_API_KEY'),
+        //     ],
+        // ]);
+
+        // $this->delete();
+
+        try {
+            $client->delete('https://cdn.hackclub.com/api/v4/upload/' . $remote_id, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . env('HACKCLUB_CDN_API_KEY'),
+                ],
+                'http_errors' => true,
+            ]);
+        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            die("Deletion of '{$remote_id}' failed: " . $e->getMessage());
+        }
+
+        return (bool) $this->forceDelete();
+    }
 }

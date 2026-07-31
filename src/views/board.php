@@ -134,7 +134,11 @@
                                     <?php //foreach($item->media() as $media): ?>
                                     <?php foreach($item->media as $media): ?>
                                         <!-- HOW STUPID AM I? – i used $project instead of $item ... -->
-                                        <img src="<?= $media->url ?>">
+                                        <div class="media-item">
+                                            <img src="<?= $media->url ?>">
+                                            <a href="<?= create_url_with_attributes(['action' => 'deleteMedia', 'object' =>'item', 'id' => $item->id, 'mid' => $media->id]) ?>" class="delete-media">Delete</a>
+                                        </div>
+
                                         <!-- ToDO: Add getUrl() ... -->
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -226,7 +230,6 @@
         <input type="submit" value="Add Item">
     </form>
 <?php endif ?>
-
 
 
 

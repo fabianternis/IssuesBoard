@@ -94,6 +94,30 @@ class ItemController extends Controller
             $error_message = 'You have no permission to perform this Action';
         } else {
             $item->delete();
+
+            $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
         }
+    }
+
+    // public function removeMedia($id)
+    public function deleteMedia($id)
+    {
+        // ToDo: global(s)
+        // global $target_uri;
+
+        $media = Media::where('id', $_GET['mid'])->where('parent_id', $id)->firstOrFail();
+
+        if(!empty($media)) {
+            $media->deleteFully();
+        } else {
+            $error_message = '...';
+            // ToDo: here too
+        }
+
+
+        // $target_uri = '/dashboard?action=show&object=project&id=' . $project->id;
+        // ToDO: THIS
+
+        
     }
 }
