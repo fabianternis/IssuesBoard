@@ -4,7 +4,7 @@
 - git-branch that gets used ...
 - way more "frontend-based" (websocket-like api)
 - `\!`IMPORTANT: "DELETE items"
-- premade auth-functions/middleware stuff (e.g. can() made better ...)
+- auth-functions/middleware stuff (e.g. can() made better ...)
 - Allowing same-time edits (e.g. using diffs instead of the "entire data")
 - "realtime" stuff (e.g. websocketing / ...) 
 - more forntend-based rendering (e.g. also sendimg the board-data as json ...)
@@ -17,7 +17,7 @@
 - generateForm() should be executed AFTER the head-view is included ...
 - deleted_at (user, project, item, ...)
 - deleted_by / item_deletes-table / ...
-- audit ?
+- audit (log)
 - emailing 
 - password reset ...
 - toasts (showToast() to Js ...)
@@ -25,6 +25,10 @@
 - frontend validation + genral validation
 - link branch/commit to item (Also GitHub-api and GitLab-api and co. ...)
 - if only OAuth: first oauth-email willl be set as user-email. if multiple auth-accounts: User can select in setiing ... On OAUth login/registeer: first checks "provider_email" and afterwards also "email".
-- "upload"/link media to item ... (e.g. image that shows a visual bug ...) (custom url OR uploading to hacclub-cdn (r2.dev))
-- "collapse all"(all items on board or just one "type" ...)
-- also "hide" images on collapse ...
+- ~~"upload"/link media to item ... (e.g. image that shows a visual bug ...) (custom url OR uploading to hacclub-cdn (r2.dev))~~
+- ~~"collapse all"(all items on board or just one "type" ...)~~
+- ~~also "hide" images on collapse ...~~
+
+<!-- [x] ~~"upload"/link media to item ... (e.g. image that shows a visual bug ...) (custom url OR uploading to hacclub-cdn (r2.dev))~~
+[x] ~~"collapse all"(all items on board or just one "type" ...)~~
+[x] ~~also "hide" images on collapse ...~~ -->

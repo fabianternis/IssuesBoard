@@ -3,12 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropzones = document.querySelectorAll('.column-items');
     const timerContainer = document.getElementById('time-container');
     const timerDisplay = document.getElementById('time-display');
-    const boardData = document.getElementById('board-data');
-    const projectId = boardData ? boardData.dataset.projectId : null;
+    // const boardData = document.getElementById('board-data');
+    // const projectId = boardData ? boardData.dataset.projectId : null;
     const saveButton = document.getElementById('button-save');
     const saveButton2 = document.getElementById('button-save-2');
+    // ToDo: add a querySelectorAll for '.save-button' ... would be way better
     const columns = document.querySelectorAll('.board-column');
-let countdownInterval = null;
+
+    let countdownTimeout = null;
+    let countdownInterval = null;
+
+    function getProjectId() {
+        const boardData = document.getElementById('board-data');
+        return boardData ? boardData.dataset.projectId : null;
+    }
 
     function syncCollapseState(itemElement, toggleInput) {
         if (toggleInput.checked) {
@@ -24,6 +32,7 @@ let countdownInterval = null;
 
         item.querySelectorAll('.item-inpt').forEach(input => {
             input.addEventListener('input', scheduleBatchSave);
+            input.addEventListener('change', scheduleBatchSave);
         });
 
 
@@ -162,7 +171,8 @@ let countdownInterval = null;
 //     }
 
     function scheduleBatchSave() {
-        /*
+        const projectId = getProjectId();
+
         if (!projectId) {
             console.error('Project ID missing ... (whyever / however this could have happened (should not be possible with the current state of teh PHP) ...')
             return;
@@ -170,6 +180,9 @@ let countdownInterval = null;
 
         if (countdownInterval) {
             clearInterval(countdownInterval);
+        }
+        if (countdownTimeout) {
+            clearTimeout(countdownTimeout);
         }
 
         let timeLeft = 3; // bc. Why not
@@ -189,19 +202,26 @@ let countdownInterval = null;
 
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
-
-                if (timerContainer) {
-                    timerContainer.classList.add('none');
-                }
-
-                executeBatchSave();
             }
         }, 1000);
-        */
+
+        countdownTimeout = setTimeout(() => {
+            if (timerContainer) {
+                timerContainer.classList.add('none');
+            }
+
+            executeBatchSave();
+        }, 3000);
     }
 
     function executeBatchSave(e) {
-        e.preventDefault(); // is that needed here ?? – will check taht soon (or never)
+        // e.preventDefault(); // is that needed here ?? – will check taht soon (or never)
+
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+
+        const projectId = getProjectId();
         const itemNodes = document.querySelectorAll('.item');
         const payload = {
             // project_id: projectId,
@@ -230,7 +250,7 @@ let countdownInterval = null;
             return response.json();
         }).then(data => {
             console.log('Board Sync successful ...');
-        }).then(error => {
+        }).catch(error => {
             console.error('Board Sync Error:' + error);
         });
     }
@@ -250,6 +270,6 @@ let countdownInterval = null;
 // ToDO: "order_index" seems not to get stored ...
 
 
-// ToDo: make auto-save fucntion again
+// DONE: make auto-save fucntion again !!! :) – but took some time ...
 
 // todo: add up/down-buttons for items (to change order_index quickly and bake UX better than it currently is ...)

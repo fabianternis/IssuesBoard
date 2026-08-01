@@ -113,7 +113,7 @@
                                 </select>
 
                                 <label for="description_<?= $item->id ?>">Description</label>
-                                <textarea clss="item-inpt" id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
+                                <textarea class="item-inpt" id="description_<?= $item->id ?>" name="description"><?= htmlspecialchars($item->description ?? '') ?></textarea>
 
                                 <label for="state_<?= $item->id ?>">State</label>
                                 <input class="item-inpt" type="text" id="state_<?= $item->id ?>" name="state" placeholder="In Work" value="<?= htmlspecialchars($item->state ?? '') ?>">
