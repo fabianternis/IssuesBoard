@@ -7,7 +7,6 @@ use Ramsey\Uuid\Uuid;
 
 class ItemController extends Controller
 {
-
     public function store($id) 
     {        
         global $target_uri, $http_code, $error_message;

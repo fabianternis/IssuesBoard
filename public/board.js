@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectId = boardData ? boardData.dataset.projectId : null;
     const saveButton = document.getElementById('button-save');
     const saveButton2 = document.getElementById('button-save-2');
-
-    let countdownInterval = null;
+    const columns = document.querySelectorAll('.board-column');
+let countdownInterval = null;
 
     function syncCollapseState(itemElement, toggleInput) {
         if (toggleInput.checked) {
@@ -35,8 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 syncCollapseState(item, e.target);
             });
 
-            collapseToggle.addEventListener('mousedown', (e) => e.stopPropagation()); // have to do that for each input ...- or alt least some
+            collapseToggle.addEventListener('mousedown', (e) => e.stopPropagation());
         }
+    });
+
+    columns.forEach(column => {
+        const bulkToggle = column.querySelector('input[name="collapse_all"]');
+        if (!bulkToggle) return;
+
+        bulkToggle.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            const columnItems = column.querySelectorAll('.item');
+
+            columnItems.forEach(item => {
+                const itemToggle = item.querySelector('.collapse-toggle');
+                if (itemToggle) {
+                    itemToggle.checked = isChecked;
+                    syncCollapseState(item, itemToggle);
+                }
+            });
+        });
     });
 
     dropzones.forEach(zone => {

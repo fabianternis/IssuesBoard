@@ -204,11 +204,32 @@ footer {
                 }
 
                 &.collapsed {
-                    form {
-                    *:not(input[name="name"]) {
+                    /* form {
+                        *:not(input[name="name"]) {
+                            display: none;
+                            visibility: hidden;
+                        }
+                    } */
+                    /* *:not(form) {
+                    &*:not(has(from)) {
                         display: none;
                         visibility: hidden;
+                        background-color: none;
+                    }} */
+                    form {
+                        > * {
+                            display: none;
+                        }
+
+                        input[name="name"],
+                        label[for^="name_"] {
+                            display: block;
+                        }
                     }
+
+                    .media-item,
+                    #upload-media-form {
+                        display: none;
                     }
                 }
 

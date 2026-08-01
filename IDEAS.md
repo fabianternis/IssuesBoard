@@ -27,3 +27,4 @@
 - if only OAuth: first oauth-email willl be set as user-email. if multiple auth-accounts: User can select in setiing ... On OAUth login/registeer: first checks "provider_email" and afterwards also "email".
 - "upload"/link media to item ... (e.g. image that shows a visual bug ...) (custom url OR uploading to hacclub-cdn (r2.dev))
 - "collapse all"(all items on board or just one "type" ...)
+- also "hide" images on collapse ...

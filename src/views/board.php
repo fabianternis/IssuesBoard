@@ -88,9 +88,15 @@
                 <h3> <?= $type ?> <!-- (<?= count($groupedItems[$type]) /* ToDo: use JS instead (for instant(realtime) updates ... )*/ ?> --></h3>
                 <!-- ToDo: Styles (some classes set already)  - Still same ToDo ... (bit of progress) -->
                 
+                <div class="collapse-all-container">
+                    <label for="collapse_all_<?= $type ?>">Collapse all</label>
+                    <input type="checkbox" name="collapse_all" id="collapse_all_<?= $type ?>">
+                </div>
+
+
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
-                        <!-- ToDo: consider storing teh collapsed-state (maybe also per-user ...) -->
+                        <!-- ToDo: consider storing the collapsed-state in db (maybe also per-user ...) -->
                         <div class="item item-<?= $item->type ?> state-<?= $item->state ?>" id="item_<?= $item->id ?>" draggable="true" data-item-id="<?= $item->id ?>">
                             <input type="checkbox" name="collapse_toggle" id="collapse_toggle<?= $item->id ?>" class="collapse-toggle">
                             <form action="<?= create_url_with_attributes(['action' => 'update', 'object' => 'item', 'id' => urlencode($project->id)]) ?>" method="post" id="itemUpdateForm_<?= $item->id ?>">
