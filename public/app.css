@@ -441,6 +441,7 @@ footer {
     }
 }
 
+img.img-preview,
 img#img_preview {
     max-width: 30vw;
     max-height: 30dvh;
@@ -449,6 +450,13 @@ img#img_preview {
     border: 4px solid lightgray;
     border-radius: 2rem; /* ??? */
     margin-bottom: .4rem;
-    
-    /* ToDo: display:none until shown by JS ... */
+
+    /* DONE: display:none until shown by JS ... */
+    display: none;
+
+    &.shown {
+        display: block;
+    }
+
+    /* OPTION: only use &:not(.shown) ... (would save ONE LINE)  */
 }

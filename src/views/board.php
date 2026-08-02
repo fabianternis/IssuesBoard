@@ -145,8 +145,10 @@
                             <?php endif; ?>
                             <form action="<?= create_url_with_attributes(['action' => 'uploadMedia', 'object' => 'item', 'id' => $item->id]) ?>" id="upload-media-form" method="post" enctype="multipart/form-data">
                                 <label for="media_upload_<?= $item->id ?>">Add New Media</label>
-                                <input type="file" name="media_upload" id="media_upload_<?= $item->id ?>">
+                                <input type="file" name="media_upload" id="media_upload_<?= $item->id ?>" onchange="preview(this.files[0], 'img_preview_<?= $item->id ?>')">
                                 <span>supported: svg, png, jpg(=jpeg), webp, ...</span>
+                                <img id="img_preview_<?= $item->id ?>" class="img-preview">
+
                                 <input type="submit" value="Upload selected media">
                             </form>
                         </div>
@@ -218,10 +220,12 @@
         <label for="order_index">Index (smaller = upper(closer to teh top of the list)) (Optional)</label>
         <input type="number" name="order_index" value="0" required>
 
+
         <?php if(!empty($project->repo_url)): ?>
             <label for="commit_id">Commit ID (Optional)</label>
             <input class="item-inpt" type="text" name="commit_id">
         <?php endif; ?>
+
 
         <?php if(true): // Setting  "allow_media" or sth. ?>
             <!-- <label for="evidence"> -->
@@ -229,7 +233,7 @@
                 <!-- Image (e.g. Evicence of Faliure) -->
                 Image (e.g. Screenshot of UI-error)
             </label>
-            <input type="file" name="image" id="image" accept="image/*" onchange="preview(this.files[0])">
+            <input type="file" name="image" id="image" accept="image/*" onchange="preview(this.files[0], 'img_preview')">
             <!-- Credits: https://stackoverflow.com/questions/45088541/how-do-i-upload-an-image-with-html-and-have-it-preview-on-the-site-with-js -->
             <img id="img_preview">
 

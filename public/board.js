@@ -272,15 +272,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function preview(file){
-  if (file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = function () {
-      document.getElementById("img_preview").src = reader.result;
+// Credits:  https://stackoverflow.com/questions/45088541/how-do-i-upload-an-image-with-html-and-have-it-preview-on-the-site-with-js
+function preview(file, image_id){
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function () {
+
+            element = document.getElementById(image_id);
+            element.src = reader.result;
+            // why is it called "element" anyway?
+            element.classList.add('shown');
+        }
     }
-  }
 }
+
+// ToDo: make it possible to remove image form form ...
 // ToDo: add upload-preview to ALL image-uploads ...
 
 
