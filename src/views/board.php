@@ -79,7 +79,7 @@
     ?>
 
 
-    <button id="button-save">Save Changes <span class="now">NOW</span></button>
+    <button class="save-button" id="button-save">Save Changes <span class="now">NOW</span></button>
 
 
     <div class="board">
@@ -128,7 +128,6 @@
                                     <label for="commit_id_<?= $item->id ?>">Commit ID</label>
                                     <input class="item-inpt" type="text" name="commit_id" id="commit_id_<?= $item->id ?>" value="<?= htmlspecialchars($item->commit_id ?? '') ?>">
                                 <?php endif; ?>
-
 
                             </form>
                             <?php //if(!empty($project->hasMedia())): ?>
@@ -191,7 +190,7 @@
     <?php endforeach ?> -->
     </div>
 
-    <button id="button-save-2">Save Changes <span class="now">NOW</span></button>
+    <button id="button-save-2" class="save-button">Save Changes <span class="now">NOW</span></button>
 
 
     
@@ -230,7 +229,10 @@
                 <!-- Image (e.g. Evicence of Faliure) -->
                 Image (e.g. Screenshot of UI-error)
             </label>
-            <input type="file" name="image" id="image">
+            <input type="file" name="image" id="image" accept="image/*" onchange="preview(this.files[0])">
+            <!-- Credits: https://stackoverflow.com/questions/45088541/how-do-i-upload-an-image-with-html-and-have-it-preview-on-the-site-with-js -->
+            <img id="img_preview">
+
             <note>please do not uplaod any <i>illegal</i> images.</note>
             <br>
         <?php endif; ?>
@@ -239,8 +241,9 @@
     </form>
 <?php else: ?>
     <h1>Seems like there was a big mistake made somewhere, developng this application</h1>
-<?php endif; ?>
 
+    <?php $target_uri = '/'; // global? – I don't think so. ?>
+<?php endif; ?>
 
 
 <script src="board.js"></script>

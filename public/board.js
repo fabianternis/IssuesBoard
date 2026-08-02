@@ -257,8 +257,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     saveButton.addEventListener('click', executeBatchSave);
     saveButton2.addEventListener('click', executeBatchSave);
+
+
+    // function discardChangesAndGetUpdates() {
+    function discardChangesAndGetLatest() {
+        // ToDo: add countdown with "refresh now"-button that lets user abort ...
+        window.location.reload();
+        // ToDo: asdsdfasdc
+    }
+
+    // Source - https://stackoverflow.com/a/45090910
+// Posted by Tomer Wolberg, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-08-02, License - CC BY-SA 4.0
+
 });
 
+function preview(file){
+  if (file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = function () {
+      document.getElementById("img_preview").src = reader.result;
+    }
+  }
+}
+// ToDo: add upload-preview to ALL image-uploads ...
 
 
 // DONE: btn that onClick saves batch .. (eventListener ...)
@@ -266,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ToDo: Add the "type-{$type}"-class also via JS instead of php...
 // ToDo: just send the diff, to allow simultamiou(or however it is written) edits
 // ToDo: CMD+S-listener to direct save (like the "save button" ...)
-// TODO: collapse/expand items ... (better overview, UX and co. ...)
+// DONE: collapse/expand items ... (better overview, UX and co. ...)
 // ToDO: "order_index" seems not to get stored ...
 
 
