@@ -28,4 +28,17 @@ class SettingsController extends Controller
             $user->recover();
         }
     }
+
+    public function privacy()
+    {
+        $user = User::where('id', 'user_id');
+
+        $raw_data = $_POST;
+
+        $_POST['show_email_owner'];
+        $_POST['show_email_all'];
+        $_POST['hidden_mode'];
+
+        $_SESION['hidden_mode'] = $_POST['hidden_mode']; // ToDo: Also on login and every time the "dasboard"-view is opened ...
+    }
 }

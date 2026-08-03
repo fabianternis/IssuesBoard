@@ -453,6 +453,8 @@ img#img_preview {
 
     /* DONE: display:none until shown by JS ... */
     display: none;
+    /* WELL "done" ... */
+
 
     &.shown {
         display: block;
