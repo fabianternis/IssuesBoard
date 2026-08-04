@@ -10,8 +10,12 @@ class User extends Model
     protected $table = 'users';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'username', 'email', 'password', 'github_id', 'github_email', 'github_token', 'github_refresh_token', 'hackclub_id', 'hackclub_email', 'hackclub_token', 'hackclub_refresh_token', 'deleted_at'];
+    protected $fillable = ['id', 'username', 'email', 'password', 'github_id', 'github_email', 'github_token', 'github_refresh_token', 'hackclub_id', 'hackclub_email', 'hackclub_token', 'hackclub_refresh_token', 'deleted_at', 'settings'];
     public $timestamps = false; 
+
+    // public $casts = [
+    //     'settings' => 'json',
+    // ];
 
     protected static function boot()
     {
@@ -26,6 +30,7 @@ class User extends Model
 
     protected $casts = [
         'deleted_at' => 'datetime',
+        'settings' => 'json',
     ];
 
     public function ownedProjects() 

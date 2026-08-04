@@ -27,22 +27,21 @@ $pages = ['none', 'danger_zone']; // for the nav ...
                 <label for="recovery_notice_accepted">I accept the conditions of this action ... Delition will be aborted ...</label>
                 <input type="checkbox" name="recovery_notice_accepted" id="recovery_notice_accepted">
             </form>
-        <?php elseif($page == 'privacy'): ?>
-            <form action="<?= create_url_with_attributes([ 'action' => 'privacy', 'object' => 'settings', 'page' => $page]) ?>" method="post">
-                
-                <label for="show_email_owner">Show my email to teh owner of a Project</label>
-                <input type="checkbox" name="show_email_owner" id="show_email_owner">
-                <label for="show_email_all">Show my email to all project-members</label>
-                <input type="checkbox" name="show_email_all" id="show_email_all">
-                <label for="hidden_mode">Hide "confidential" info by bluring it out by default ("no leak mode")</label>
-                <input type="checkbox" name="hidden_mode" id="hidden_mode">
-                <note for="hidden_mode">No 100% guarantee ...</note>
-
-                <!-- <input type="submit" value="Save Settings">
-            </form> -->
         <?php else: ?>
             <h3>It seems like this account has been deleted!</h3>
         <?php endif; ?>
+    <?php elseif($page == 'privacy'): ?>
+        <form action="<?= create_url_with_attributes([ 'action' => 'privacy', 'object' => 'settings', 'page' => $page]) ?>" method="post">
+            <label for="show_email_owner">Show my email to teh owner of a Project</label>
+            <input type="checkbox" name="show_email_owner" id="show_email_owner">
+            <label for="show_email_all">Show my email to all project-members</label>
+            <input type="checkbox" name="show_email_all" id="show_email_all">
+            <label for="hidden_mode">Hide "confidential" info by bluring it out by default ("no leak mode")</label>
+            <input type="checkbox" name="hidden_mode" id="hidden_mode">
+            <note for="hidden_mode">No 100% guarantee ...</note>
+
+            <!-- <input type="submit" value="Save Settings">
+        </form> -->
     <?php elseif($page == 'info'): ?>
         </h3>Info Settings</h3>
         <form action="<?= create_url_with_attributes([]) ?>">

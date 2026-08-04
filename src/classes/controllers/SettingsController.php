@@ -31,14 +31,25 @@ class SettingsController extends Controller
 
     public function privacy()
     {
-        $user = User::where('id', 'user_id');
+        global $target_uri;
 
-        $raw_data = $_POST;
+        $user = User::where('id', $_SESSION['user_id'])->firstOrFail();
 
-        $_POST['show_email_owner'];
-        $_POST['show_email_all'];
-        $_POST['hidden_mode'];
+        // $raw_data = $_POST;
 
-        $_SESION['hidden_mode'] = $_POST['hidden_mode']; // ToDo: Also on login and every time the "dasboard"-view is opened ...
+        $settings_update['privacy'] = [
+            'show_email_owner' => $_POST['show_email_owner'],
+            'show_email_all' => $_POST['show_email_all'],
+            'hidden_mode' => $_POST['hidden_mode'],
+        ];
+
+        $old_settings = $user->settings;
+        $settings_array = array_merge($old_settings, $settings_update);
+
+        $user->update(['settings' => $settings_array]);
+
+        $_SESSION['hidden_mode'] = $_POST['hidden_mode']; // ToDo: Also on login and every time the "dasboard"-view is opened ...
+
+        $target_uri = create_url_with_attributes([]);
     }
 }
