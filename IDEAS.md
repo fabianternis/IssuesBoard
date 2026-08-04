@@ -32,3 +32,6 @@
 <!-- [x] ~~"upload"/link media to item ... (e.g. image that shows a visual bug ...) (custom url OR uploading to hacclub-cdn (r2.dev))~~
 [x] ~~"collapse all"(all items on board or just one "type" ...)~~
 [x] ~~also "hide" images on collapse ...~~ -->
+
+- Setting-model instead of 'settings' on user-model ... Would be way better ...
+- Build a Custom LLM-harness for "AI Help" ...

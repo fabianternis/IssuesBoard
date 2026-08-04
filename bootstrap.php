@@ -34,6 +34,7 @@ function getCommitId() {
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $action = $_GET['action'] ?? null;
 $object = $_GET['object'] ?? null;
+$_page = $_GET['page'] ?? null;
 $auth = new AuthController();
 $view_name = null;
 $http_code = 404;
