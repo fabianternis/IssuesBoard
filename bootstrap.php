@@ -41,6 +41,16 @@ $http_code = 404;
 $http_code_force = false;
 $error_message = null;
 $target_uri = $uri;
+// $error = $_ET['error'];
+
+
+if (config('app.debug') !== false)
+{
+// echo("<b>Debug</b>:");
+echo("Debug:");
+var_dump($_GET);
+}
+
 
 
 function Auth() {

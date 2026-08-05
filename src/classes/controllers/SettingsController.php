@@ -9,24 +9,39 @@ class SettingsController extends Controller
 {
     public function request_deletion()
     {
+        global $target_uri, $erro_message, $http_code;
+
         $user = User::where('id', 'user_id'); // could have used Auth()->user() ...
 
-        if (!($_POST['deletion_notice^_accepted'] == true)) {
-            // some error ...
+        if (!($_POST['deletion_notice_accepted'] == true)) {
+            $error = 'You may check/accept the notice';
+            $success = 0;
         } else {
             $user->delete_soft();
+            $success = 1;
         }
+
+        // $target_uri = create_url_with_attributes(['page' => 'request_deletion', 'object' => 'settings', 'success' => 1, 'action' => 'show_', 'error' => $error ?? null,]);
+        $target_uri = create_url_with_attributes(['page' => 'request_deletion', 'object' => 'settings', 'success' => $success ?? 0, 'action' => 'show_', 'error' => $error ?? null,]);
     }
 
     public function abort_deletion()
     {
+        global $target_uri, $erro_message, $http_code;
+        
         $user = User::where('id', 'user_id');
 
         if (!($_POST['recovery_notice_accepted'] == true)) {
             // error (hopefully soon)
+            $error = 'You may check/accept the notice';
+            $success = 0;
         } else {
             $user->recover();
+            $success = 1;
         }
+
+        // $target_uri = create_url_with_attributes(['page' => 'abort_deletion', 'object' => 'settings', 'success' => 1, 'action' => 'show_', 'error' => $error ?? null,]);
+        $target_uri = create_url_with_attributes(['page' => 'abort_deletion', 'object' => 'settings', 'success' => $success ?? 0, 'action' => 'show_', 'error' => $error ?? null,]);
     }
 
     public function privacy()
@@ -57,8 +72,16 @@ class SettingsController extends Controller
     public function show_() // I was stupid enough to require "id" on show() in bootstrap.php ...
     {
         // global $page;
+        global $view_name, $http_code, $error_message;
 
-        global $view_name;
-        $view_name = 'settings';
+        // if (isset($_SESSION['user_id']))
+        if (Auth()->check()) {
+            $view_name = 'settings';
+        } else {
+            $http_code = 403;
+            // $error_message = 'No furtehr info (code:403)';
+            $error_message = 'No furtehr info (code:'.$http_code.')';
+            // $view_name
+        }
     }
 }
