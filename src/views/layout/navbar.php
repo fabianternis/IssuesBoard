@@ -7,4 +7,10 @@
     <?php else: ?>
         <a class="nav-link" href="/auth">Auth</a>
     <?php endif ?>
+    
+    <!-- <?php if($auth->check()): ?>
+        <a href="<?= create_url_with_attributes(['action' => 'logout']) ?>">Log out</a>
+    <?php endif ?> -->
+
+    <!-- ToDo: STYLES ... -->
 </nav>

@@ -93,7 +93,6 @@
                     <input type="checkbox" name="collapse_all" id="collapse_all_<?= $type ?>">
                 </div>
 
-
                 <div class="column-items">
                     <?php foreach ($groupedItems[$type] as $item): ?>
                         <!-- ToDo: consider storing the collapsed-state in db (maybe also per-user ...) -->

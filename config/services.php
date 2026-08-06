@@ -13,5 +13,4 @@ return [
         ],
         // ToDo: implement https://github.com/usarise/turnstile-php
     ],
-    
 ];

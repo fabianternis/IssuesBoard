@@ -104,7 +104,7 @@ if (isset($action)) {
                 //exit; THIS F***ING LINE OF CODE COST ME about 1h of DEBUGGING – might keep this line forever ...
             }
         }
-    } 
+    }
     else {
         switch ($action) {
             case 'login':
@@ -257,6 +257,6 @@ echo(isset($user));
 
 
 
-<?php if($auth->check()): ?>
-    <a href="<?= create_url_with_attributes(['action' => 'logout']) ?>">Log out</a>
-<?php endif ?>
+<?php // if($auth->check()): ?>
+    <!-- <a href="<?= create_url_with_attributes(['action' => 'logout']) ?>">Log out</a> -->
+<?php // endif ?>

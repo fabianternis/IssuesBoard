@@ -263,13 +263,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function discardChangesAndGetLatest() {
         // ToDo: add countdown with "refresh now"-button that lets user abort ...
         window.location.reload();
-        // ToDo: asdsdfasdc
+        // ToDo: forgot it
     }
 
     // Source - https://stackoverflow.com/a/45090910
 // Posted by Tomer Wolberg, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-08-02, License - CC BY-SA 4.0
-
 });
 
 // Credits:  https://stackoverflow.com/questions/45088541/how-do-i-upload-an-image-with-html-and-have-it-preview-on-the-site-with-js
