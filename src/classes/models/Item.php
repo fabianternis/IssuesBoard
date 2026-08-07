@@ -4,9 +4,12 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Traits\LogsActivity;
 
 class Item extends Model 
 {
+    use LogsActivity;
+
     protected $table = 'items';
 
     public $incrementing = false;

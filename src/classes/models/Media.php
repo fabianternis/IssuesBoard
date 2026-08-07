@@ -4,9 +4,12 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Traits\LogsActivity;
 
 class Media extends Model 
 {
+    use LogsActivity;
+
     protected $table = 'media';
     public $incrementing = false;
     protected $keyType = 'string';

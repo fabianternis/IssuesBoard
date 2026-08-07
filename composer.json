@@ -12,7 +12,8 @@
     "autoload": {
         "psr-4": {
             "Controllers\\": "src/classes/controllers/",
-            "Models\\": "src/classes/models/"
+            "Models\\": "src/classes/models/",
+            "Traits\\": "src/classes/traits/"
         }
     },
     "require-dev": {

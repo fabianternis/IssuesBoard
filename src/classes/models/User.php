@@ -4,9 +4,13 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Str, Carbon};
+use Traits\LogsActivity;
 
 class User extends Model 
 {
+    use LogsActivity;
+    // assigend 2x to the user ... (object_id, user_id, object_type)
+
     protected $table = 'users';
     public $incrementing = false;
     protected $keyType = 'string';
