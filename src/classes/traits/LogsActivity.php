@@ -30,12 +30,12 @@ trait LogsActivity
     protected function recordActivity(string $action, ?array $pre, ?array $post): void
     {
         ActivityLog::create([
-            'user_id'      => $this->getCurrentUserId(),
-            'object_type'  => $this->getMorphClass(),
-            'object_id'    => $this->getKey(),
-            'action'       => $action,
-            'data_pre'     => $pre,
-            'data_post'    => $post,
+            'user_id' => $this->getCurrentUserId(),
+            'object_type' => $this->getMorphClass(),
+            'object_id' => $this->getKey(),
+            'action' => $action,
+            'data_pre' => $pre,
+            'data_post' => $post,
             'performed_at' => date('Y-m-d H:i:s'),
         ]);
     }
@@ -44,5 +44,10 @@ trait LogsActivity
     {
         return $_SESSION['user_id'] ?? null; 
         // whyever i ade a function for that ...
+    }
+
+    public function generateDiff()
+    {
+        return null;
     }
 }

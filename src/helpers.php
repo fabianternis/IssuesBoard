@@ -162,3 +162,60 @@ function create_url_with_attributes(array $attributes, ?string $uri = '') {
 function url_(array $attributes, ?string $uri = '') {
     return create_url_with_attributes($attributes, $uri);
 }
+
+function to_relative_time(DateTimeInterface|int|string $datetime, ?DateTimeInterface $now = null): string {
+    $timezone = new DateTimeZone('Europe/Berlin');
+
+    if ($datetime instanceof DateTimeInterface) {
+        $target = (clone $datetime)->setTimezone($timezone);
+    } elseif (is_numeric($datetime)) {
+        $target = (new DateTimeImmutable('now', $timezone))->setTimestamp((int)$datetime);
+    } else {
+        try {
+            $target = new DateTimeImmutable($datetime, $timezone);
+        } catch (Exception $e) {
+            throw new InvalidArgumentException("Invalid datetime string provided: {$datetime}", 0, $e);
+        }
+    }
+
+    $reference = $now ? (clone $now)->setTimezone($timezone) : new DateTimeImmutable('now', $timezone);
+
+    $secondsDelta = $target->getTimestamp() - $reference->getTimestamp();
+    $absSeconds = abs($secondsDelta);
+
+    if ($absSeconds < 5) {
+        return 'just now';
+    }
+
+    $isPast = $secondsDelta < 0;
+    $diff = $reference->diff($target);
+
+    $totalDays = $diff->days;
+    
+    if ($diff->y > 0) {
+        $value = $diff->y;
+        $unit = 'year';
+    } elseif ($diff->m > 0) {
+        $value = $diff->m;
+        $unit = 'month';
+    } elseif ($totalDays >= 7) {
+        $value = (int) floor($totalDays / 7);
+        $unit = 'week';
+    } elseif ($diff->d > 0) {
+        $value = $diff->d;
+        $unit = 'day';
+    } elseif ($diff->h > 0) {
+        $value = $diff->h;
+        $unit = 'hour';
+    } elseif ($diff->i > 0) {
+        $value = $diff->i;
+        $unit = 'minute';
+    } else {
+        $value = $diff->s;
+        $unit = 'second';
+    }
+
+    $label = $value . ' ' . $unit . ($value > 1 ? 's' : '');
+    
+    return $isPast ? "{$label} ago" : "in {$label}";
+}
