@@ -21,6 +21,7 @@ class AuthController /*extends Controller*/ {
             ];*/
 
     function signup($email, $username, $password, $password_confirmation) {
+        // ToDO: log signup
         try {
             $data = [
                 'email' => $email,
@@ -59,6 +60,7 @@ class AuthController /*extends Controller*/ {
     }
 
     function login($identifier, $password) {
+        // TODo: log login
         if(isset($_SESSION['user_id']) || !isset($identifier) || !isset($password)) {
             return;
         }
@@ -84,6 +86,7 @@ class AuthController /*extends Controller*/ {
     }
 
     function logout() {
+        // ToDO: log logout
         $_SESSION['user_id'] = null;
     }
 

@@ -4,9 +4,12 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Traits\LogsActivity;
 
 class Item extends Model 
 {
+    use LogsActivity;
+
     protected $table = 'items';
 
     public $incrementing = false;
@@ -23,9 +26,12 @@ class Item extends Model
         'type',
         'state',
         'external_url',
-        // 'image_url'
+        // 'image_url' // WOW – now there is a Media-model and media-table ...
         'order_index',
+        'deleted_at',
+        'commit_id',
     ];
+
     protected static function boot()
     {
         parent::boot();
@@ -40,5 +46,65 @@ class Item extends Model
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id');
+    }
+
+
+    public function isDeleted(): bool
+    {
+        return !is_null($this->deleted_at);
+    }
+
+    public function is_deleted(): bool
+    {
+        return $this->isDeleted();
+    }
+ 
+    public function delete_soft()
+    {
+        if(!$this->isDeleted()) {
+            $this->deleted_at = $this->freshTimestamp();
+
+            return $this->save();
+        }
+    }
+
+    public function delete()
+    {
+        return $this->soft_delete();
+    }
+
+    public function generateCommitUrl()
+    {
+        // if ((isset($this->project()->repo_url) && isset($this->commit_id))) {
+        if ((empty($this->project()->repo_url) || empty($this->commit_id))) {
+
+            // if (str_includes($this->project()->repo_url, 'github.com')); // IT IS str_contains() ... I AM SO STUPID
+
+            $base_url = rtrim(preg_replace('/\.git$/i', '', $this->project()->repo_url), '/');
+
+            if (str_contains($base_url, 'github.com') || str_contains($base_url, 'gitlab.com')) {
+                return "{$base_url}/commit/{$this->commit_id}";
+            }
+            elseif(false) /* TODO */ {
+            
+                // ToDO: Add more "git providers" (also: how will i support self-hosted instaces ...)
+
+            } else {
+                return null; // TWICHE  .... :( (it is also below)
+            }
+            // switch
+        } else {
+            return null;
+        }
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'parent');
+    }
+
+    public function hasMedia(): bool
+    {
+        return $this->media()->exists();
     }
 }

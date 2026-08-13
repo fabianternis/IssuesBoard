@@ -18,5 +18,11 @@
     </div>
 
     <img src="https://hackatime.hackclub.com/api/v1/badge/U0B8JTZDTKQ/fabianternis/IssuesBoard">
+
+    <!-- <hr> -->
+
+    <div class="credits-or-so">
+        By <a href="https://fabian.ternis.dev">Fabian Ternis</a>
+    </div>
 </footer>
 </html>
