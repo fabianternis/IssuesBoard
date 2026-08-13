@@ -119,6 +119,7 @@ if (!function_exists('app_log')) {
 function echoForm(string $action, array $inputs, ?string $id = null, string $method = 'post', $attriubutes = [['t', 'o',], ['d', 'o',],]) {
     // maybe automatic $action-generation using the new function ...
 
+    global $form_content;
     $form = '';
 
     $id_attribute = $id !== null ? sprintf(" id=\"{$id}\"") : '';
@@ -139,7 +140,8 @@ function echoForm(string $action, array $inputs, ?string $id = null, string $met
     }
     $form .= '</form>';
 
-    echo $form;
+    // echo $form;
+    $form_content = $form;
 }
 
 function createUuid() {
