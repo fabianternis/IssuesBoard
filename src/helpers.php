@@ -74,15 +74,10 @@ if (!function_exists('config')) {
 
 if (!function_exists('getCommitId')) {
     function getCommitId() {
-        // if (!function_exists('shell_exec')) {
-        //     return '';
-        // }
-
-        return '';
-        
-        // return trim((string) shell_exec('git rev-parse --short HEAD 2>/dev/null'));
-        // To prevent Stuff in Prodcution
-        // ToDo: is a merker for here
+        if (!function_exists('shell_exec')) {
+            return '';
+        }
+        return trim((string) shell_exec('git rev-parse --short HEAD 2>/dev/null'));
     }
 }
 

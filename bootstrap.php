@@ -26,9 +26,9 @@ if(isset($_SESSION['user_id'])) {
 use Controllers\AuthController;
 
 
-function getCommitId() {
-    return trim((string) shell_exec('git rev-parse --short HEAD'));
-}
+// function getCommitId() {
+//     return trim((string) shell_exec('git rev-parse --short HEAD')); // BROKEN On KeyHelp
+// }
 
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
