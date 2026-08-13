@@ -127,6 +127,8 @@ class ItemController extends Controller
 
         // $target_uri = $this->uri_from_item_id($id);
         $this->uri_from_item_id($id);
+
+        // $target_uri = 
     }
 
     public function uri_from_item_id($id)
@@ -136,9 +138,9 @@ class ItemController extends Controller
 
         // return '/board?action=show&object=project&id=' . $project->id;
         $target_uri =  '/board?action=show&object=project&id=' . $project->id;
-        exit; // unsure: Do i have to run this ??
+        // exit; // unsure: Do i have to run this ??
+        echo('<h1><a href="/board?action=show&object=project&id=' . $project->id. '">Back to board ...</a> (have to resolve this at some point)</h1>');
     }
 }
 
-
-// ToDO: itnternal function: uri_from_item_id
+// DONE: itnternal function: uri_from_item_id

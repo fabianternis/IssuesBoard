@@ -260,3 +260,7 @@ echo(isset($user));
 <?php // if($auth->check()): ?>
     <!-- <a href="<?= create_url_with_attributes(['action' => 'logout']) ?>">Log out</a> -->
 <?php // endif ?>
+
+<?php if(isset($_GET['item']) && $_GET['item'] == 'item' && isset($_GET['id']) && ($view_name != 'board')): ?>
+    hi there
+<?php endif ?>
