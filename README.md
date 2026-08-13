@@ -1,12 +1,21 @@
 # IssuesBoard <br><img src="https://hackatime.hackclub.com/api/v1/badge/U0B8JTZDTKQ/fabianternis/IssuesBoard">
 A dashboard to track issues, bugs and feedback as well as ToDos accross Coding Projects (with option to use GitHub-api).
 
+**Demo:** [issuesboard.thosted.de](https://issuesboard.thosted.de)
+
 ### made without the help of AI (not even auto-complete)
+
+### This Codebase is **A BIG MESS**
 
 A Project for macondo by HackClub
 
 
 ## Start Dev Server
+AFTER CLONING (`git clone https://github.com/fabianternis/IssuesBoard.git`):
+_**note:** this might only work on macOS and Linux systems and might not support Windows or any otehr Operating systems <br> this requires you to have PHP and Composer installed on your System_
+
+<br><br>
+
 Give permission `chmod +x ./start.sh`
 <br>
 Start local PHP Server `./start.sh`
@@ -17,6 +26,11 @@ _note: `start.sh`is the only file, ai worked on_
 
 ##### Why This way?
 Because i may add some more "processes" in the background that then all get started with this OEN script. additionally the port of the webserver is always the same ...
+
+
+## **basic** Useage instructions/Documentations
+
+Images: ToDo
 
 
 ## Used Packages

@@ -31,11 +31,15 @@ $error = $_GET['error'] ?? null;
 ?>
 
 <div class="settings-nav">
-    <?php foreach($pages as $page_from_list): ?>
-        <a class="settings-nav-link <?= $_page === $page_from_list ? 'active' : '' ?>" href="<?= create_url_with_attributes(['page' => $_page_from_list, 'object' => 'settings', 'action' => 'show_']) ?>">
-            <?= htmlspecialchars($page_from_list) ?>
+    <?php foreach($pages as $_whynot): ?>
+        <a class="settings-nav-link <?= $_page == $_whynot ? 'active' : '' ?>" href="<?= create_url_with_attributes(['page' => $_whynot, 'object' => 'settings', 'action' => 'show_']) ?>">
+            <?= htmlspecialchars($_whynot) ?>
         </a>
+        |
+
+        <?php // also have to find out what was the problem here ... ?>
     <?php endforeach; ?>
+    ToDo
 </div>
 
 <div class="settings-page">

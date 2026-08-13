@@ -22,6 +22,9 @@ $objects_list = ['projects', 'items', 'media'];
 
                 <span class="date"><?= to_relative_time($item->performed_at) ?></span>
                 
+                <div>
+                    <!-- ToDo: Stuff -->
+                </div>
             </div>
         <?php endforeach; ?>
     </div>
