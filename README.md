@@ -11,10 +11,8 @@ A Project for macondo by HackClub
 
 
 ## Start Dev Server
-AFTER CLONING (`git clone https://github.com/fabianternis/IssuesBoard.git`):
+AFTER CLONING (`git clone https://github.com/fabianternis/IssuesBoard.git`):<br>
 _**note:** this might only work on macOS and Linux systems and might not support Windows or any otehr Operating systems <br> this requires you to have PHP and Composer installed on your System_
-
-<br><br>
 
 Give permission `chmod +x ./start.sh`
 <br>
@@ -50,6 +48,10 @@ You can "collapse" items to just see the name and no other information(as long a
 <br>
 <img width="1920" height="992" alt="Screenshot 2026-08-13 at 20 44 13" src="https://github.com/user-attachments/assets/0615fc85-35c2-4f80-9ec7-3246f17b547e" />
 
+
+## Inspiration
+I came-up with the idea for this Project because i always write myself on the "Note to self" signal-channel or create a ToDo.md(with no real overview) on my project.
+SO: I decided to create the not that usual "ToDoList"/Taks-management perfect for my needs (linking github-issues/pull-requests and co. (I also wanted to implement GitHub-api but haven't figured taht out yet.
 
 ## Used Packages
 ### blakvghost/php-validator
