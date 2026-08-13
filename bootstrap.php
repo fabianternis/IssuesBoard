@@ -235,7 +235,14 @@ include __DIR__ . '/src/views/layout/head.php';
 echo "<body class=\"{$view_name}-page\">";
 include __DIR__ . '/src/views/layout/navbar.php';
 echo '<main>';
-include __DIR__ . "/src/views/{$view_name}.php";
+if(isset($form_content) && !empty($form_content)) {
+    $view_name = 'form_container';
+    // echo("hello?");
+}
+// include __DIR__ . "
+// } else {
+    include __DIR__ . "/src/views/{$view_name}.php";
+// }
 echo '</main>';
 echo '</body>';
 include __DIR__ . '/src/views/layout/foot.php';
