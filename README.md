@@ -29,8 +29,21 @@ Because i may add some more "processes" in the background that then all get star
 
 
 ## **basic** Useage instructions/Documentations
+### Start: Auth
+You start by registering a account (no email-verification is implemented, no username or password minumum-lenghts)
+<img width="729" height="67" alt="Screenshot 2026-08-13 at 20 33 32" src="https://github.com/user-attachments/assets/1b0ee873-b2ed-4f5a-810b-0fbadf52898e" />
 
-Images: ToDo
+### First Action: Project creation
+Click on "Create Project" on the dashboard and enter something on the form
+<img width="449" height="69" alt="Screenshot 2026-08-13 at 20 34 37" src="https://github.com/user-attachments/assets/8c3a0941-fdb2-48ca-9404-b3ab2b4c3a93" /><br>
+Afer **Submit** you will be redirected to the "Project Board"
+
+### Adding the first item
+Scroll down to the very-bottom of the page and fill-out the form. Things like "image" and "description" are optional and can also be changed later
+<img width="571" height="713" alt="Screenshot 2026-08-13 at 20 41 13" src="https://github.com/user-attachments/assets/9339e405-aafa-4e2d-9ed0-21b2f51e9a5b" />
+
+### Items
+You can "collapse" items to just see the name and no other information(as long as the item is collapsed).<br>You can theoretically have _unlimited_ images uploaded/attached to your item (stored on hackclub's CDN).
 
 
 ## Used Packages
