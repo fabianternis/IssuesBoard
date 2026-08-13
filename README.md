@@ -45,7 +45,9 @@ Scroll down to the very-bottom of the page and fill-out the form. Things like "i
 ### Items
 You can "collapse" items to just see the name and no other information(as long as the item is collapsed).<br>You can theoretically have _unlimited_ images uploaded/attached to your item (stored on hackclub's CDN).
 <img width="441" height="992" alt="Screenshot 2026-08-13 at 20 43 26" src="https://github.com/user-attachments/assets/459cd7b6-9855-479f-b511-65d042070ddd" />
-<br>Those Items can also be dragged between "types"(Issue/Ideas/ToDo/Other) ...<br>
+<br>
+<p>Those Items can also be dragged between "types"(Issue/Ideas/ToDo/Other) ...</p>
+<br>
 <img width="1920" height="992" alt="Screenshot 2026-08-13 at 20 44 13" src="https://github.com/user-attachments/assets/0615fc85-35c2-4f80-9ec7-3246f17b547e" />
 
 
