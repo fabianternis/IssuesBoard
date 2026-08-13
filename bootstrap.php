@@ -251,13 +251,13 @@ include __DIR__ . '/src/views/layout/foot.php';
 
 echo "<!--";
 
-
 echo(json_encode($user));
-echo "<hr>";
-echo "<hr>";
+echo "<hr><hr>";
 echo($auth->check());
 echo "<hr>";
 echo(isset($user));
+
+echo "-->";
 
 
 ?>

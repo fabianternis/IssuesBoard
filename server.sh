@@ -24,6 +24,4 @@ echo "Executing database migrations..."
 php db/migrator.php
 
 # 4. Process Handoff
-# Use system service manager or process manager (e.g., systemd, Supervisor, Docker CMD)
-# Do NOT use `php -S` in production.
 echo "Deployment tasks complete. Handoff to web server / application runner (e.g., php-fpm)."
