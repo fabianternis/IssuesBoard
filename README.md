@@ -11,7 +11,9 @@ A Project for macondo by HackClub
 
 ## AI use
 I only used AI for writing the `.sh`-files and _once_ to find a bug, i searched for for about an hour (i think it was just a misspelled variable).
-All other AI-Use in Hackatime are "False Positives" taht happened when i was thinking and wile thinking mass-spamming my keyboard which lead to Wakatime thinking: "There were 10lines changed in 2s. this must be AI" ... SO: i have 2h less of "Actual coding-time".
+All other AI-Use in Hackatime are "False Positives" taht happened when i was thinking and wile thinking mass-spamming my keyboard which lead to Wakatime thinking: "There were 10lines changed in 2s. this must be AI" ... <br> SO: i have 2h less of "Actual coding-time".
+
+No AI-generated code runs the application itself.
 
 ## Start Dev Server
 AFTER CLONING (`git clone https://github.com/fabianternis/IssuesBoard.git`):<br>
